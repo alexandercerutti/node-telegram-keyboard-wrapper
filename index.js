@@ -182,6 +182,20 @@ class InlineKeyboard extends ReplyMarkup {
 	}
 
 	/**
+	 * Retrieves a row length
+	 *
+	 * @member rowLength
+	 * @param {number} rowIndex - index of the target row (starts from the end of keyboard if lower than 0)
+	 * @returns {number} - target row's length
+	 */
+
+	rowLength(rowIndex) {
+		let index = validateRow.call(this, rowIndex);
+
+		return this.keyboard[rowIndex].length;
+	}
+
+	/**
 	 * Pushes a new button to a specific row.
 	 *
 	 * @member push
@@ -214,21 +228,6 @@ class InlineKeyboard extends ReplyMarkup {
 
 		this.keyboard[index].pop();
 		return this;
-	}
-
-	/**
-	 * Retrieves a row length
-	 *
-	 * @member rowLength
-	 * @param {number} rowIndex - index of the target row (starts from the end of keyboard if lower than 0)
-	 * @returns {number} - target row's length
-	 */
-
-	rowLength(rowIndex) {
-		if (rowIndex < 0) {
-			rowIndex = this.keyboard.length + rowIndex;
-		}
-		return this.keyboard[rowIndex].length;
 	}
 
 	get length() {
