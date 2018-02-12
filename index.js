@@ -238,6 +238,10 @@ class InlineKeyboard extends ReplyMarkup {
 		this.keyboard[index].pop();
 		return this;
 	}
+
+	get length() {
+		return this.keyboard.length;
+	}
 }
 
 /**
