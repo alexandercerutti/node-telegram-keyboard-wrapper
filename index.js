@@ -161,7 +161,12 @@ class InlineKeyboard extends ReplyMarkup {
 		let index = validateRow.call(this, rowIndex);
 
 		this.keyboard[index] = [];
-		return this;
+		return Object.create(this, {
+			lastRow: {
+				configurable: false,
+				value: index,
+			}
+		});
 	}
 
 	/**
@@ -189,10 +194,10 @@ class InlineKeyboard extends ReplyMarkup {
 	 * @returns {number} - target row's length
 	 */
 
-	rowLength(rowIndex) {
-		let index = validateRow.call(this, rowIndex);
+	rowLength(rowIndex, ignoreLastRow = true) {
+		let index = (!ignoreLastRow && this.lastRow) ? this.lastRow : validateRow.call(this, rowIndex);
 
-		return this.keyboard[rowIndex].length;
+		return this.keyboard[index].length;
 	}
 
 	/**
@@ -204,8 +209,8 @@ class InlineKeyboard extends ReplyMarkup {
 	 * @returns {Object} - InlineKeyboard
 	 */
 
-	push(rowIndex, element) {
-		let index = validateRow.call(this, rowIndex);
+	push(rowIndex, element, ignoreLastRow = true) {
+		let index = (!ignoreLastRow && this.lastRow) ? this.lastRow : validateRow.call(this, rowIndex);
 
 		if (Array.isArray(element)) {
 			throw TypeError("Misusage: cannot add an array of elements to the keyboard.")
