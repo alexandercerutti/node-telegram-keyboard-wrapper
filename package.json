@@ -1,5 +1,5 @@
 {
-  "name": "telegram-keyboards-support",
+  "name": "telegram-keyboard-wrapper",
   "version": "1.0.0",
   "description": "A support to create keyboards in Telegram via bots",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexandercerutti/node-telegram-keyboards-support.git"
+    "url": "git+https://github.com/alexandercerutti/node-telegram-keyboard-wrapper.git"
   },
   "keywords": [
     "telegram",
@@ -17,9 +17,9 @@
   "author": "Alexander P. Cerutti",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alexandercerutti/node-telegram-keyboards-support/issues"
+    "url": "https://github.com/alexandercerutti/node-telegram-keyboard-wrapper/issues"
   },
-  "homepage": "https://github.com/alexandercerutti/node-telegram-keyboards-support#readme",
+  "homepage": "https://github.com/alexandercerutti/node-telegram-keyboard-wrapper#readme",
   "devDependencies": {
     "mocha": "^5.0.0",
     "node-telegram-bot-api": "^0.30.0"
