@@ -1,8 +1,44 @@
+/**
+ * Telegram keyboard wrapper
+ * A wrapper to manage in an easy way Telegram Reply and Inline Keyboards.
+ *
+ * Created by Alexander P. Cerutti, 2018
+ */
+
+/**
+ * Returns a valid index if it is out-of-bounds
+ * To be called inside the class, via .call
+ *
+ * @function validateRow
+ * @params {!Integer} index - the index to be validated
+ * @returns {Integer} - validated row index
+ */
+
 function validateRow(index) {
 	if (index < 0 || index > this.keyboard.length-1) {
 		return Math.abs(index % this.keyboard.length);
 	}
 	return index;
+}
+
+/**
+ * Validates the propeties in an object 
+ * To be called inside an object, via .call
+ *
+ * @function validateProperties
+ * @params {!propertyList[]} - list of properties to be validated
+ * @returns {Array} - validated options
+ */
+
+function validateProperties(propertyList = []) {
+	let validated = JSON.parse(JSON.stringify(this));
+	propertyList.forEach(p => {
+		if (p in this && typeof this[p] !== "boolean") {
+			validated[p] = false;
+		}
+	});
+
+	return validated;
 }
 
 class ReplyMarkup {
@@ -94,30 +130,10 @@ class InlineKeyboard extends ReplyMarkup {
 	}
 
 	/**
-	 * Pushes a new button to a specific row.
-	 *
-	 * @member push
-	 * @param {number} rowIndex - row into which the button will be added; Starts from the last if negative.
-	 * @param {Object} element - element to be added
-	 * @returns {Object} - InlineKeyboard
-	 */
-
-	push(rowIndex, element) {
-		let index = validateRow.call(this, rowIndex);
-
-		if (Array.isArray(element)) {
-			throw TypeError("Misusage: cannot add an array of elements to the keyboard.")
-		}
-
-		this.keyboard[index].push(element);
-		return this;
-	}
-
-	/**
 	 * Removes a row from the keyboard
 	 *
 	 * @member removeRow
-	 * @param {number} rowIndex - index of the row to be removed (starts from begin if higher than keys quantity)
+	 * @param {number} rowIndex - index of the row to be removed (starts from opposite if out-of-bounds)
 	 * @returns {Object} - new object with InlineKeyboard as prototype to allow methods concatenation and the length of this row
 	 */
 
@@ -137,7 +153,7 @@ class InlineKeyboard extends ReplyMarkup {
 	 * Removes row content
 	 *
 	 * @member emptyRow
-	 * @param {number} rowIndex - index of the row to be emptied
+	 * @param {number} rowIndex - index of the row to be emptied (starts from opposite if out-of-bounds)
 	 * @returns {Object} - InlineKeyboard
 	 */
 
@@ -166,19 +182,37 @@ class InlineKeyboard extends ReplyMarkup {
 	}
 
 	/**
+	 * Pushes a new button to a specific row.
+	 *
+	 * @member push
+	 * @param {number} rowIndex - row into which the button will be added; starts from opposite if out-of-bounds
+	 * @param {Object} element - element to be added
+	 * @returns {Object} - InlineKeyboard
+	 */
+
+	push(rowIndex, element) {
+		let index = validateRow.call(this, rowIndex);
+
+		if (Array.isArray(element)) {
+			throw TypeError("Misusage: cannot add an array of elements to the keyboard.")
+		}
+
+		this.keyboard[index].push(element);
+		return this;
+	}
+
+	/**
 	 * Removes last element of a row
 	 *
 	 * @member pop
-	 * @param {number} rowIndex - index of the target row (starts from begin if higher than keys quantity)
+	 * @param {number} rowIndex - index of the target row (starts from opposite if out-of-bounds)
 	 * @returns {Object} - InlineKeyboard
 	 */
 
 	pop(rowIndex) {
-		if (rowIndex > this.keyboard.length-1) {
-			rowIndex = rowIndex % this.keyboard.length;
-		}
+		let index = validateRow.call(this, rowIndex)
 
-		this.keyboard[rowIndex].pop();
+		this.keyboard[index].pop();
 		return this;
 	}
 
@@ -245,26 +279,36 @@ class ReplyKeyboard extends ReplyMarkup {
 	 * Creates a new reply keyboard
 	 *
 	 * @member open
+	 * @param {Object} options
+	 * @param {Bool} options.selective
 	 * @returns {Object} - reply markup object
 	 * @see https://core.telegram.org/bots/api#replykeyboardmarkup
 	 */
 
-	open() {
+	open(options = { selective: false, one_time_keyboard: false, resize_keyboard: false }) {
 		this.type = "keyboard";
-		return Object.assign(this.export(), { resize_keyboard: true });
+
+		const validatedOptions = validateProperties.call(options, ["selective", "one_time_keyboard", "resize_keyboard"]);
+
+		return Object.assign(this.export(), validatedOptions);
 	}
 
 	/**
 	 * Closes the opened reply keyboard
 	 *
 	 * @member close
+	 * @param {Object} options
+	 * @param {Bool} options.selective
 	 * @returns {Object} - reply markup object
 	 * @see https://core.telegram.org/bots/api#replykeyboardremove
 	 */
 
-	close() {
+	close(options = { selective : false }) {
 		this.type = "remove_keyboard";
-		return this.export(true);
+
+		const validatedOptions = validateProperties.call(options, ["selective"]);
+
+		return Object.assign(this.export(true), options);
 	}
 
 	get getKeys() {
