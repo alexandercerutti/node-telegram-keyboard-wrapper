@@ -165,6 +165,10 @@ class InlineKeyboard extends ReplyMarkup {
 			lastRow: {
 				configurable: false,
 				value: index,
+			},
+			length: {
+				configurable: false,
+				get: function() { return this.keyboard.length }
 			}
 		});
 	}
@@ -233,10 +237,6 @@ class InlineKeyboard extends ReplyMarkup {
 
 		this.keyboard[index].pop();
 		return this;
-	}
-
-	get length() {
-		return this.keyboard.length;
 	}
 }
 
