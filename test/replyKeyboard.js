@@ -40,8 +40,10 @@ describe("Reply Keyboards tests", function() {
 			assert.deepEqual(keyboard.open(), {
 				reply_markup: {
 					keyboard: [ firstLoad, secondLoad ],
-				},
-				resize_keyboard: true,
+					selective: false,
+					one_time_keyboard: false,
+					resize_keyboard: false,
+				}
 			});
 		});
 	});
@@ -55,7 +57,8 @@ describe("Reply Keyboards tests", function() {
 		it("Should return the telegram data structure", function() {
 			assert.deepEqual(keyboard.close(), {
 				reply_markup: {
-					remove_keyboard: true
+					selective: false,
+					remove_keyboard: true,
 				}
 			});
 		});

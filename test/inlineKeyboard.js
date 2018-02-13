@@ -27,7 +27,7 @@ describe("Inline Keyboards tests", function() {
 	it("Should not contain any element", function() {
 		let keyboardFailedToAdd = new main.InlineKeyboard({
 			noTextFields: "To let this work,",
-			willMakethisFailing: "text must be a property of oneElement",
+			willMakethisFailing: "text must be a property of oneKey",
 		});
 
 		assert.equal(keyboardFailedToAdd.extract(keyboardFailedToAdd.export()).length, 0);
@@ -58,7 +58,7 @@ describe("Inline Keyboards tests", function() {
 			assert.equal(keyboard.extract(keyboard.export()).length, 2);
 		});
 
-		it("Should have a length property after .addRow(), which returns the amount of rows", function() {
+		it("Should have a length property inherited, which returns the amount of rows", function() {
 			assert.equal(keyboard.addRow(...thirdLoad).length, 1);
 		});
 	});
@@ -159,6 +159,18 @@ describe("Inline Keyboards tests", function() {
 			keyboard.emptyRow(6);
 
 			assert.equal(keyboard.extract(keyboard.export())[0].length, 0);
+		});
+
+		it("Chaining method and .push() and then returning the length of the row", function() {
+			// if ignoreLastRow is false, any index can be passed to rowIndex
+			var row0Len = keyboard
+				.emptyRow(0)
+				.push(-1, {
+					text: "This button has been just pushed"
+				}, false)
+				.rowLength(-1, false);
+
+			assert.equal(row0Len, 1);
 		});
 	});
 });
