@@ -44,6 +44,7 @@ function validateProperties(propertyList = []) {
 class ReplyMarkup {
 	constructor() {
 		this.keyboard = [];
+		this.lastRow = -1;
 	}
 
 	/**
@@ -100,10 +101,10 @@ class ReplyMarkup {
 
 class InlineKeyboard extends ReplyMarkup {
 
-	constructor(oneElement) {
+	constructor(oneKey) {
 		super();
-		if (oneElement && typeof oneElement === "object" && "text" in oneElement) {
-			this.keyboard.push([oneElement]);
+		if (!!oneKey && typeof oneKey === "object" && "text" in oneKey) {
+			this.addRow(oneElement);
 		}
 
 		this.type = "inline_keyboard";
@@ -185,7 +186,7 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	rowLength(rowIndex, ignoreLastRow = true) {
-		let index = (!ignoreLastRow && this.lastRow) ? this.lastRow : validateRow.call(this, rowIndex);
+		let index = (!ignoreLastRow && !!this.lastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
 
 		return this.keyboard[index].length;
 	}
@@ -200,7 +201,7 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	push(rowIndex, element, ignoreLastRow = true) {
-		let index = (!ignoreLastRow && this.lastRow) ? this.lastRow : validateRow.call(this, rowIndex);
+		let index = (!ignoreLastRow && !!this.lastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
 
 		if (Array.isArray(element)) {
 			throw TypeError("Misusage: cannot add an array of elements to the keyboard.")
