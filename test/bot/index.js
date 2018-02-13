@@ -1,7 +1,5 @@
-const { InlineKeyboard, ReplyKeyboard } = require("../..");
+const { InlineKeyboard, ReplyKeyboard, ForceReply } = require("../..");
 const TelegramBot = require("node-telegram-bot-api");
-
-console.log(process.argv);
 
 if (process.argv.length < 3) {
 	throw new Error("To test this bot, please pass a bot-token to the application.");
@@ -44,15 +42,25 @@ bot.onText(/\/replyKeyboard/i, function(msg) {
 		});
 });
 
-bot.on("message", function(msg) {
-	if (!hasBotCommands(msg.entities) && isRKOpen) {
-		bot.sendMessage(msg.from.id, "Good! I'm closing the replyKeyboard.", rk.close());
-		isRKOpen = !isRKOpen;
-	}
+bot.onText(/\/forceReply/i, function(msg) {
+	bot.sendMessage(msg.from.id, "Hey, this is a forced-reply. Reply me.", (new ForceReply()).export());
 });
 
 bot.onText(/\/inlineKeyboard/i, function(msg) {
 	bot.sendMessage(msg.from.id, "This is a message with an inline keyboard.", ik.export());
+});
+
+bot.on("message", function(msg) {
+	if (!hasBotCommands(msg.entities)) {
+		if (isRKOpen) {
+			bot.sendMessage(msg.from.id, "Good! I'm closing the replyKeyboard.", rk.close());
+			isRKOpen = !isRKOpen;
+		}
+
+		if (!!msg.reply_to_message) {
+			bot.sendMessage(msg.from.id, "Good! ForceReply works!");
+		}
+	}
 });
 
 bot.on("callback_query", function(query) {

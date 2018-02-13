@@ -206,6 +206,26 @@ See for more: [Reply Keyboard Remove](https://core.telegram.org/bots/api#replyke
 Returns an array containing the keys which compose the keyboard.
 
 
+##### Force Reply
+
+##### Constructor
+```javascript
+new ForceReply();
+```
+
+##### _@override_ .export()
+Returns a keyboard structure for force reply.
+
+```
+(new ForceReply()).export(options = { selective: false });
+```
+
+| Parameters | Description | Type | Optional | Default value |
+| ---------- | ----------- | ---- | -------- | ------------- |
+| options | Options of the button | Object | _true_ | `{ selective: false }`
+
+See for more: [ForceReply](https://core.telegram.org/bots/api#forcereply)
+
 
 #### Inherited methods and properties
 
@@ -237,4 +257,3 @@ Throws error if in `from` there's not the property `reply_markup`.
 
 ##### Getter: length
 Returns the length of the keyboard (rows)
-

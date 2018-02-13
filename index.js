@@ -312,7 +312,28 @@ class ReplyKeyboard extends ReplyMarkup {
 	}
 }
 
+/**
+ * Basic class for every Force Reply
+ *
+ * @class Keyboard
+ * @classdesc main class containing reply keyboards creation
+ */
+
+class ForceReply extends ReplyMarkup {
+	constructor() {
+		super();
+		this.type = "force_reply";
+	}
+
+	export(options = { selective: false }) {
+		const validatedOptions = validateProperties.call(options, ["selective"]);
+
+		return super.export(validatedOptions, true);
+	}
+}
+
 module.exports = {
 	InlineKeyboard,
-	ReplyKeyboard
+	ReplyKeyboard,
+	ForceReply,
 };
