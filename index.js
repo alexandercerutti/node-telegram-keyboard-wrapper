@@ -62,12 +62,18 @@ class ReplyMarkup {
 	 * @see https://core.telegram.org/bots/api#sendmessage
 	 */
 
-	export(override) {
-		return {
-			reply_markup: Object.assign({
+	export(options = {}, override = "") {
+		let exportedStructure = {
+			reply_markup: {
 				[this.type]: override || this.keyboard,
-			})
-		};
+			}
+		}
+
+		if (typeof options === "object" && !(options instanceof Array) && Object.keys(options).length > 0) {
+			exportedStructure["reply_markup"] = Object.assign(exportedStructure.reply_markup, options);
+		}
+
+		return exportedStructure;
 	}
 
 	/**
@@ -99,7 +105,7 @@ class ReplyMarkup {
  *
  * @class InlineKeyboard
  * @classdesc main class containing inline keyboards creation
- * @params {Object} oneElement - one Telegram Inline Keyboard button to insert in the first line
+ * @params {Object} oneKey - one Telegram Inline Keyboard button to insert in the first line
  * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
  */
 
@@ -108,7 +114,7 @@ class InlineKeyboard extends ReplyMarkup {
 	constructor(oneKey) {
 		super();
 		if (!!oneKey && typeof oneKey === "object" && "text" in oneKey) {
-			this.addRow(oneElement);
+			this.addRow(oneKey);
 		}
 
 		this.type = "inline_keyboard";
@@ -190,7 +196,7 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	rowLength(rowIndex, ignoreLastRow = true) {
-		let index = (!ignoreLastRow && !!this.lastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
+		let index = (!ignoreLastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
 
 		return this.keyboard[index].length;
 	}
@@ -205,10 +211,10 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	push(rowIndex, element, ignoreLastRow = true) {
-		let index = (!ignoreLastRow && !!this.lastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
+		let index = (!ignoreLastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
 
 		if (Array.isArray(element)) {
-			throw TypeError("Misusage: cannot add an array of elements to the keyboard.")
+			throw TypeError("Misusage: cannot add an array of elements to the specified row.")
 		}
 
 		this.keyboard[index].push(element);
@@ -280,7 +286,7 @@ class ReplyKeyboard extends ReplyMarkup {
 
 		const validatedOptions = validateProperties.call(options, ["selective", "one_time_keyboard", "resize_keyboard"]);
 
-		return Object.assign(this.export(), validatedOptions);
+		return this.export(validatedOptions);
 	}
 
 	/**
@@ -298,7 +304,7 @@ class ReplyKeyboard extends ReplyMarkup {
 
 		const validatedOptions = validateProperties.call(options, ["selective"]);
 
-		return Object.assign(this.export(true), options);
+		return this.export(validatedOptions, true);
 	}
 
 	get getKeys() {
