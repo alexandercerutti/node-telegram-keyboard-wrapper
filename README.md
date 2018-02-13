@@ -34,12 +34,12 @@ All the methods are chainable.
 
 ##### Constructor
 ```javascript
-new InlineKeyboard(oneElement);
+new InlineKeyboard(oneKey);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
 | ---------- | ----------- | ---- | -------- | ------------- |
-| oneElement | Fastest way to have one-button keyboard. | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _true_ | n/a |
+| oneKey | Fastest way to have one-button keyboard. | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _true_ | n/a |
 
 #### Rows
 
@@ -208,12 +208,13 @@ Returns an array containing the keys which compose the keyboard.
 Returns a keyboard structure based on the type.
 
 ```javascript
-.export(override);
+.export(options = {}, override = "");
 ```
 
 | Parameters | Description | Type | Optional | Default value |
 | ---------- | ----------- | ---- | -------- | ------------- |
-| override | An override content to be sent in the structure | \<Any\> | _true_ | n/a
+| options  | Options to be added to `reply_markup` object | Object | _true_ | { }
+| override | An override content to be sent in the structure | \<Any\> | _true_ | ""
 
 
 ##### .extract()
@@ -227,6 +228,7 @@ Returns the content of `reply_markup`.
 | ---------- | ----------- | ---- | -------- | ------------- |
 | from | The structure obtained from .export() | Object | _false_ | n/a
 
+Throws error if in `from` there's not the property `reply_markup`.
 
 ##### Getter: length
 Returns the length of the keyboard (rows)
