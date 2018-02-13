@@ -9,6 +9,7 @@ This is a support wrapper created to simplify the creation of keyboards inside t
 Tests for all methods are included.
 
 ```sh
+npm install --only=dev
 npm test
 ```
 
@@ -53,7 +54,7 @@ Adds a new row with specified elements.
 | ---------- | ----------- | ---- | -------- | ------------- |
 | keys | One Object per button | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _false_ | n/a |
 
-Returns the object itself (chaining) with `length` property for keyboard rows length.
+Returns the object itself for chaining;
 
 ##### .removeRow()
 Removed an entire row of keys.
@@ -68,7 +69,8 @@ Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the
 | ---------- | ----------- | ---- | -------- | ------------- |
 | rowIndex | The row to be removed. | Integer | _false_ | n/a |
 
-Returns the object itself (chaining) with `length` property for keyboard rows length.
+Returns the object itself for chaining;
+
 
 ##### .emptyRow()
 Empty an entire row of keys but without removing the row.
@@ -83,7 +85,7 @@ Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the
 | ---------- | ----------- | ---- | -------- | ------------- |
 | rowIndex | The row to be emptied. | Integer | _false_ | n/a |
 
-Returns the object itself (chaining) with `length` property for keyboard rows length and `lastRow` to keep trace of which was the emptied row.
+Returns the object itself for chaining with `lastRow` property to keep trace of which was the emptied row.
 
 
 ##### .popRow()
@@ -93,7 +95,7 @@ Pops the last row of the keyboard.
 (new InlineKeyboard()).popRow(rowIndex);
 ```
 
-Returns the object itself (chaining) with `length` property for keyboard rows length.
+Returns the object itself for chaining;
 
 ##### .rowLength()
 Empty an entire row of keys but without removing the row.
@@ -128,7 +130,7 @@ Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the
 | element | The element to push | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _false_ | n/a |
 | ignoreLastRow | Ignore last edited row | Boolean | _true_ | true
 
-Returns the object itself (chaining).
+Returns the object itself for chaining;
 
 ##### .pop()
 Pops out the last element of a row.
@@ -142,12 +144,7 @@ Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the
 | ---------- | ----------- | ---- | -------- | ------------- |
 | rowIndex | The row from which pop the last element. | Integer | _false_ | n/a |
 
-Returns the object itself (chaining).
-
-
-##### Getter: length
-Returns the length of the keyboard (rows)
-
+Returns the object itself for chaining;
 
 ##### Reply Keyboards
 
@@ -200,8 +197,12 @@ Returns a keyboard structure to close a ReplyKeyboard.
 
 See for more: [Reply Keyboard Remove](https://core.telegram.org/bots/api#replykeyboardremove)
 
+##### Getter: getKeys
+Returns an array containing the keys which compose the keyboard.
 
-#### Inherited methods
+
+
+#### Inherited methods and properties
 
 ##### .export()
 Returns a keyboard structure based on the type.
@@ -227,5 +228,5 @@ Returns the content of `reply_markup`.
 | from | The structure obtained from .export() | Object | _false_ | n/a
 
 
-##### Getter: getKeys
-Returns an array containing the keys which compose the keyboard.
+##### Getter: length
+Returns the length of the keyboard (rows)
