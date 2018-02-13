@@ -82,6 +82,11 @@ class ReplyMarkup {
 
 		return ("reply_markup" in from) ? from["reply_markup"][this.type] : {};
 	}
+
+
+	get length() {
+		return this.keyboard.length;
+	}
 }
 
 /**
@@ -121,12 +126,7 @@ class InlineKeyboard extends ReplyMarkup {
 				this.keyboard[this.keyboard.length-1].push(key);
 			}
 		});
-		return Object.create(this, {
-			length: {
-				configurable: false,
-				get: function() { return this.keyboard.length }
-			}
-		});
+		return this;
 	}
 
 	/**
@@ -141,12 +141,7 @@ class InlineKeyboard extends ReplyMarkup {
 		let index = validateRow.call(this, rowIndex);
 
 		this.keyboard.splice(index, 1);
-		return Object.create(this, {
-			length: {
-				configurable: false,
-				get: function() { return this.keyboard.length }
-			}
-		});
+		return this;
 	}
 
 	/**
@@ -165,10 +160,6 @@ class InlineKeyboard extends ReplyMarkup {
 			lastRow: {
 				configurable: false,
 				value: index,
-			},
-			length: {
-				configurable: false,
-				get: function() { return this.keyboard.length }
 			}
 		});
 	}
@@ -182,12 +173,7 @@ class InlineKeyboard extends ReplyMarkup {
 
 	popRow() {
 		this.keyboard.pop();
-		return Object.create(this, {
-			length: {
-				configurable: false,
-				get: function() { return this.keyboard.length }
-			}
-		});
+		return this;
 	}
 
 	/**
@@ -238,10 +224,6 @@ class InlineKeyboard extends ReplyMarkup {
 		this.keyboard[index].pop();
 		return this;
 	}
-
-	get length() {
-		return this.keyboard.length;
-	}
 }
 
 /**
@@ -275,12 +257,7 @@ class ReplyKeyboard extends ReplyMarkup {
 			this.keys.push(key);
 		});
 
-		return Object.create(this, {
-			length: {
-				configurable: false,
-				get: function() { return this.keyboard.length }
-			}
-		});
+		return this;
 	}
 
 	/**
