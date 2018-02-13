@@ -15,9 +15,14 @@
  */
 
 function validateRow(index) {
+	if (index === null || index === undefined || typeof index !== "number") {
+		throw new Error("Cannot evaluate a row without valid index.");
+	}
+
 	if (index < 0 || index > this.keyboard.length-1) {
 		return Math.abs(index % this.keyboard.length);
 	}
+
 	return index;
 }
 
@@ -83,7 +88,6 @@ class ReplyMarkup {
 
 		return ("reply_markup" in from) ? from["reply_markup"][this.type] : {};
 	}
-
 
 	get length() {
 		return this.keyboard.length;
