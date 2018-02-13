@@ -83,10 +83,10 @@ class ReplyMarkup {
 
 	extract(from) {
 		if (!from["reply_markup"]) {
-			console.error("'reply_markup' not found as property of Object 'from'.");
+			throw new Error("'reply_markup' not found as property");
 		}
 
-		return ("reply_markup" in from) ? from["reply_markup"][this.type] : {};
+		return from["reply_markup"][this.type];
 	}
 
 	get length() {
