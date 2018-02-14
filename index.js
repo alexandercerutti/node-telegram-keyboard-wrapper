@@ -325,6 +325,16 @@ class ForceReply extends ReplyMarkup {
 		this.type = "force_reply";
 	}
 
+	/**
+	 * Exports the structure for forceReply
+	 *
+	 * @member export
+	 * @param {Object} options
+	 * @param {Bool} options.selective
+	 * @returns {Object} - reply_markup object
+	 * @see https://core.telegram.org/bots/api#forcereply
+	 */
+
 	export(options = { selective: false }) {
 		const validatedOptions = validateProperties.call(options, ["selective"]);
 
