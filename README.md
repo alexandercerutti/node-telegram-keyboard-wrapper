@@ -216,7 +216,7 @@ new ForceReply();
 ##### _@override_ .export()
 Returns a keyboard structure for force reply.
 
-```
+```javascript
 (new ForceReply()).export(options = { selective: false });
 ```
 
