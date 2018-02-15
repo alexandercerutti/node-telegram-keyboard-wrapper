@@ -24,7 +24,7 @@ To use it, you have just to pass a bot token as a command line argument to node,
 
 ```sh
 cd node-telegram-keyboard-wrapper
-node test/bot 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
+node examples/botExample.js 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
 ```
 
 Then just type `/replyKeyboard` (and answer or click to hide) `/inlineKeyboard` (and click to trigger) in your Telegram client to see the wrapper in action.
