@@ -18,7 +18,7 @@ To install:
 npm install telegram-keyboard-wrapper --save
 ```
 
-Moreover, a [test folder](/test/bot) subfolder, which contains a test bot which uses yagop's [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api) to show how the library works, is available.
+Moreover in [examples](/examples) folder, a test bot which uses yagop's [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api) to show how the library works, is available.
 
 To use it, you have just to pass a bot token as a command line argument to node, like follows.
 
