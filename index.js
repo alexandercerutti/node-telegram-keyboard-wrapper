@@ -10,8 +10,8 @@
  * To be called inside the class, via .call
  *
  * @function validateRow
- * @params {!Integer} index - the index to be validated
- * @returns {Integer} - validated row index
+ * @params {!number} index - the index to be validated
+ * @returns {number} - validated row index
  */
 
 function validateRow(index) {
@@ -19,20 +19,20 @@ function validateRow(index) {
 		throw new Error("Cannot evaluate a row without valid index.");
 	}
 
-	if (index < 0 || index > this.keyboard.length-1) {
-		return Math.abs(index % this.keyboard.length);
+	if (index < 0 || index > this._keyboard.length-1) {
+		return Math.abs(index % this._keyboard.length);
 	}
 
 	return index;
 }
 
 /**
- * Validates the propeties in an object 
- * To be called inside an object, via .call
+ * Checks if options in propertyList are available in passed context
+ * and are booleans. Sets them to false otherwise.
  *
  * @function validateProperties
- * @params {!propertyList[]} - list of properties to be validated
- * @returns {Array} - validated options
+ * @params {String[]} [propertyList=[]] - list of properties to be validated
+ * @returns {Object} - validated options
  */
 
 function validateProperties(propertyList = []) {
@@ -120,12 +120,11 @@ class InlineKeyboard extends ReplyMarkup {
 		this.type = "inline_keyboard";
 	}
 
-
 	/**
 	 * Adds a new row to the keyboard. Accepts all the keys to be pushed in that row.
 	 *
 	 * @member addRow
-	 * @param {...Object} keys - Telegram's Inline Keyboard buttons
+	 * @param {Object[]} keys - Telegram's Inline Keyboard buttons
 	 * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
 	 * @returns {Object} - new object with InlineKeyboard as prototype to allow methods concatenation and get this row length
 	 */
@@ -192,6 +191,7 @@ class InlineKeyboard extends ReplyMarkup {
 	 *
 	 * @member rowLength
 	 * @param {number} rowIndex - index of the target row (starts from the end of keyboard if lower than 0)
+	 * @params {boolean} ignoreLastRow - selected last row on false, excludes it otherwise
 	 * @returns {number} - target row's length
 	 */
 
@@ -336,6 +336,7 @@ class ForceReply extends ReplyMarkup {
 	 */
 
 	export(options = { selective: false }) {
+		// Checking if passed properties exists and are booleans or sets them to false.
 		const validatedOptions = validateProperties.call(options, ["selective"]);
 
 		return super.export(validatedOptions, true);
