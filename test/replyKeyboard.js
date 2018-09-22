@@ -1,4 +1,4 @@
-const main = require("..");
+const { ReplyKeyboard } = require("..");
 const assert = require("assert");
 /*
  * Tests for Reply Keyboards
@@ -14,7 +14,7 @@ describe("Reply Keyboards tests", function() {
 		let keyboard;
 
 		beforeEach("init keyboard", function() {
-			keyboard = new main.ReplyKeyboard();
+			keyboard = new ReplyKeyboard();
 		});
 
 		it("Should add elements to a row and return the right number of rows via .extract() method", function() {
@@ -31,7 +31,7 @@ describe("Reply Keyboards tests", function() {
 	});
 
 	describe(".open()", function() {
-		let keyboard = new main.ReplyKeyboard();
+		let keyboard = new ReplyKeyboard();
 			keyboard
 				.addRow(...firstLoad)
 				.addRow(...secondLoad)
@@ -49,7 +49,7 @@ describe("Reply Keyboards tests", function() {
 	});
 
 	describe(".close()", function() {
-		let keyboard = new main.ReplyKeyboard();
+		let keyboard = new ReplyKeyboard();
 			keyboard
 				.addRow(...firstLoad)
 				.addRow(...secondLoad)

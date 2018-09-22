@@ -1,4 +1,4 @@
-const { InlineKeyboard, ReplyKeyboard, ForceReply } = require("../..");
+const { InlineKeyboard, ReplyKeyboard, ForceReply } = require("..");
 const TelegramBot = require("node-telegram-bot-api");
 
 if (process.argv.length < 3) {
@@ -25,7 +25,6 @@ ik
 		{ text: "2:1 button", callback_data: "Works!" },
 		{ text: "2:2 button", callback_data: "Works!" }
 	);
-
 
 function hasBotCommands(entities) {
 	if (!entities || !(entities instanceof Array)) {

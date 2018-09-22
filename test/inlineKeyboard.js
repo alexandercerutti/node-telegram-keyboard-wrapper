@@ -1,4 +1,4 @@
-const main = require("..");
+const { InlineKeyboard } = require("..");
 const assert = require("assert");
 /*
  * Tests for Inline Keyboards
@@ -25,7 +25,7 @@ describe("Inline Keyboards tests", function() {
 	}];
 
 	it("Should not contain any element", function() {
-		let keyboardFailedToAdd = new main.InlineKeyboard({
+		let keyboardFailedToAdd = new InlineKeyboard({
 			noTextFields: "To let this work,",
 			willMakethisFailing: "text must be a property of oneKey",
 		});
@@ -35,7 +35,7 @@ describe("Inline Keyboards tests", function() {
 
 	describe("Creation test with one element", function() {
 		it("Should contain just one element", function() {
-			let keyboard = new main.InlineKeyboard({
+			let keyboard = new InlineKeyboard({
 				text: "This is an element for an InlineKeyboard"
 			});
 
@@ -47,7 +47,7 @@ describe("Inline Keyboards tests", function() {
 		let keyboard;
 
 		beforeEach("init keyboard", function() {
-			keyboard = new main.InlineKeyboard();
+			keyboard = new InlineKeyboard();
 		});
 
 		it("Should add elements to a row and return the right number of rows via .extract() method", function() {
@@ -68,7 +68,7 @@ describe("Inline Keyboards tests", function() {
 		let keyboard;
 
 		beforeEach("init keyboard", function() {
-			keyboard = new main.InlineKeyboard();
+			keyboard = new InlineKeyboard();
 			keyboard
 				.addRow(...firstLoad)
 				.addRow(...secondLoad)
@@ -105,7 +105,7 @@ describe("Inline Keyboards tests", function() {
 		let keyboard;
 
 		beforeEach("init keyboard", function() {
-			keyboard = new main.InlineKeyboard();
+			keyboard = new InlineKeyboard();
 			keyboard
 				.addRow(...firstLoad)
 				.addRow(...secondLoad)
@@ -136,7 +136,7 @@ describe("Inline Keyboards tests", function() {
 		let keyboard;
 
 		beforeEach("init keyboard", function() {
-			keyboard = new main.InlineKeyboard();
+			keyboard = new InlineKeyboard();
 			keyboard
 				.addRow(...firstLoad)
 				.addRow(...secondLoad)
