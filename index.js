@@ -48,8 +48,9 @@ function validateProperties(propertyList = []) {
 
 class ReplyMarkup {
 	constructor() {
-		this.keyboard = [];
-		this.lastRow = -1;
+		this._keyboard = [];
+		this._lastRow = -1;
+		this._type = "";
 	}
 
 	/**
@@ -65,7 +66,7 @@ class ReplyMarkup {
 	export(options = {}, override = "") {
 		let exportedStructure = {
 			reply_markup: {
-				[this.type]: override || this.keyboard,
+				[this._type]: override || this._keyboard,
 			}
 		}
 
@@ -92,11 +93,11 @@ class ReplyMarkup {
 			throw new Error("'reply_markup' not found as property");
 		}
 
-		return from["reply_markup"][this.type];
+		return from["reply_markup"][this._type];
 	}
 
 	get length() {
-		return this.keyboard.length;
+		return this._keyboard.length;
 	}
 }
 
@@ -113,11 +114,11 @@ class InlineKeyboard extends ReplyMarkup {
 
 	constructor(oneKey) {
 		super();
-		if (!!oneKey && typeof oneKey === "object" && "text" in oneKey) {
+		if (oneKey && typeof oneKey === "object" && "text" in oneKey) {
 			this.addRow(oneKey);
 		}
 
-		this.type = "inline_keyboard";
+		this._type = "inline_keyboard";
 	}
 
 	/**
@@ -130,12 +131,13 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	addRow(...keys) {
-		this.keyboard.push([]);
+		this._keyboard.push([]);
 		keys.forEach((key, index) => {
 			if ("text" in key) {
-				this.keyboard[this.keyboard.length-1].push(key);
+				this._keyboard[this._keyboard.length-1].push(key);
 			}
 		});
+
 		return this;
 	}
 
@@ -150,7 +152,7 @@ class InlineKeyboard extends ReplyMarkup {
 	removeRow(rowIndex) {
 		let index = validateRow.call(this, rowIndex);
 
-		this.keyboard.splice(index, 1);
+		this._keyboard.splice(index, 1);
 		return this;
 	}
 
@@ -165,7 +167,8 @@ class InlineKeyboard extends ReplyMarkup {
 	emptyRow(rowIndex) {
 		let index = validateRow.call(this, rowIndex);
 
-		this.keyboard[index] = [];
+		this._keyboard[index] = [];
+
 		return Object.create(this, {
 			lastRow: {
 				configurable: false,
@@ -182,7 +185,7 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	popRow() {
-		this.keyboard.pop();
+		this._keyboard.pop();
 		return this;
 	}
 
@@ -196,9 +199,11 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	rowLength(rowIndex, ignoreLastRow = true) {
-		let index = (!ignoreLastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
+		let index = (ignoreLastRow || this._lastRow < 0)
+			? validateRow.call(this, rowIndex)
+			: this._lastRow;
 
-		return this.keyboard[index].length;
+		return this._keyboard[index].length;
 	}
 
 	/**
@@ -211,13 +216,15 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	push(rowIndex, element, ignoreLastRow = true) {
-		let index = (!ignoreLastRow && this.lastRow >= 0) ? this.lastRow : validateRow.call(this, rowIndex);
+		let index = (ignoreLastRow || this.lastRow < 0)
+			? validateRow.call(this, rowIndex)
+			: this.lastRow;
 
 		if (Array.isArray(element)) {
 			throw TypeError("Misusage: cannot add an array of elements to the specified row.")
 		}
 
-		this.keyboard[index].push(element);
+		this._keyboard[index].push(element);
 		return this;
 	}
 
@@ -230,9 +237,9 @@ class InlineKeyboard extends ReplyMarkup {
 	 */
 
 	pop(rowIndex) {
-		let index = validateRow.call(this, rowIndex)
+		let index = validateRow.call(this, rowIndex);
+		this._keyboard[index].pop();
 
-		this.keyboard[index].pop();
 		return this;
 	}
 }
@@ -245,9 +252,11 @@ class InlineKeyboard extends ReplyMarkup {
  */
 
 class ReplyKeyboard extends ReplyMarkup {
+
 	constructor(...keys) {
 		super();
-		this.keys = [];
+		this._keys = [];
+
 		if (keys && keys.length) {
 			this.addRow(keys);
 		}
@@ -262,10 +271,11 @@ class ReplyKeyboard extends ReplyMarkup {
 	 */
 
 	addRow(...keys) {
-		this.keyboard.push([]);
+		this._keyboard.push([]);
+
 		keys.forEach((key) => {
-			this.keyboard[this.keyboard.length-1].push(key);
-			this.keys.push(key);
+			this._keyboard[this._keyboard.length-1].push(key);
+			this._keys.push(key);
 		});
 
 		return this;
@@ -282,9 +292,12 @@ class ReplyKeyboard extends ReplyMarkup {
 	 */
 
 	open(options = { selective: false, one_time_keyboard: false, resize_keyboard: false }) {
-		this.type = "keyboard";
+		this._type = "keyboard";
 
-		const validatedOptions = validateProperties.call(options, ["selective", "one_time_keyboard", "resize_keyboard"]);
+		let boolKeys = ["selective", "one_time_keyboard", "resize_keyboard"];
+
+		// Checking if passed properties exists and are booleans or sets them to false.
+		const validatedOptions = validateProperties.call(options, boolKeys);
 
 		return this.export(validatedOptions);
 	}
@@ -300,15 +313,16 @@ class ReplyKeyboard extends ReplyMarkup {
 	 */
 
 	close(options = { selective : false }) {
-		this.type = "remove_keyboard";
+		this._type = "remove_keyboard";
 
+		// Checking if passed properties exists and are booleans or sets them to false.
 		const validatedOptions = validateProperties.call(options, ["selective"]);
 
 		return this.export(validatedOptions, true);
 	}
 
 	get getKeys() {
-		return this.keys;
+		return this._keys;
 	}
 }
 
@@ -322,7 +336,7 @@ class ReplyKeyboard extends ReplyMarkup {
 class ForceReply extends ReplyMarkup {
 	constructor() {
 		super();
-		this.type = "force_reply";
+		this._type = "force_reply";
 	}
 
 	/**
