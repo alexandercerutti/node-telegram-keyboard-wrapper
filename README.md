@@ -1,10 +1,12 @@
 # Node.JS Telegram Keyboard Wrapper
 
-
-
 #### A support for telegram keyboards creation, both inline and reply.
 
 This is a support wrapper created to simplify the creation of keyboards inside telegram bot written in Node.JS which used wrapper doesn't have already a support for managing keyboards in such dynamic way.
+
+```sh
+npm install node-telegram-keyboard-wrapper --save
+```
 
 Tests for all methods are included.
 
@@ -13,29 +15,28 @@ npm install --only=dev
 npm test
 ```
 
-To install:
-```sh
-npm install telegram-keyboard-wrapper --save
-```
+In examples folder, an example bot is available. It is based on yagop's [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api). It requires a bot token to be passed as argument.
 
-Moreover in [examples](/examples) folder, a test bot which uses yagop's [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api) to show how the library works, is available.
-
-To use it, you have just to pass a bot token as a command line argument to node, like follows.
+Execute it by running
 
 ```sh
-cd node-telegram-keyboard-wrapper
-node examples/botExample.js 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
+npm run example -- 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
 ```
 
-Then just type `/replyKeyboard` (and answer or click to hide) `/inlineKeyboard` (and click to trigger) in your Telegram client to see the wrapper in action.
+Then just type `/replyKeyboard` (and answer or click to hide), `/inlineKeyboard` (and click to trigger) or `/forceReply` in your Telegram client to see the wrapper in action.
 
 If you have any issue, suggestion of what else, feel free to open a topic in issues. 😉
 
+___
 
 ## API Reference
 
-##### Inline Keyboards
-All the methods are chainable.
+### Inline Keyboards
+
+```javascript
+// keep this always as valid
+let inlineKeyboard = new InlineKeyboard();
+```
 
 ##### Constructor
 ```javascript
@@ -43,8 +44,8 @@ new InlineKeyboard(oneKey);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| oneKey | Fastest way to have one-button keyboard. | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _true_ | n/a |
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| oneKey | Fastest way to have one-button keyboard. | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | true | - |
 
 #### Rows
 
@@ -52,12 +53,12 @@ new InlineKeyboard(oneKey);
 Adds a new row with specified elements.
 
 ```javascript
-(new InlineKeyboard()).addRow(...keys);
+inlineKeyboard.addRow(...keys);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| keys | One Object per button | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _false_ | n/a |
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| keys | One Object per button | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | false | - |
 
 Returns the object itself for chaining;
 
@@ -67,12 +68,12 @@ Removed an entire row of keys.
 Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the counter restart from their opposite bounds.
 
 ```javascript
-(new InlineKeyboard()).removeRow(rowIndex);
+inlineKeyboard.removeRow(rowIndex);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| rowIndex | The row to be removed. | Integer | _false_ | n/a |
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| rowIndex | The row to be removed. | Integer | false | - |
 
 Returns the object itself for chaining;
 
@@ -83,12 +84,12 @@ Empty an entire row of keys but without removing the row.
 Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the counter restart from their opposite bounds.
 
 ```javascript
-(new InlineKeyboard()).emptyRow(rowIndex);
+inlineKeyboard.emptyRow(rowIndex);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| rowIndex | The row to be emptied. | Integer | _false_ | n/a |
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| rowIndex | The row to be emptied. | Integer | false | - |
 
 Returns the object itself for chaining with `lastRow` property to keep trace of which was the emptied row.
 
@@ -97,7 +98,7 @@ Returns the object itself for chaining with `lastRow` property to keep trace of 
 Pops the last row of the keyboard.
 
 ```javascript
-(new InlineKeyboard()).popRow(rowIndex);
+inlineKeyboard.popRow(rowIndex);
 ```
 
 Returns the object itself for chaining;
@@ -107,18 +108,17 @@ Empty an entire row of keys but without removing the row.
 Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the counter restart from their opposite bounds.
 
 ```javascript
-(new InlineKeyboard()).rowLength(rowIndex, ignoreLastRow = true);
+inlineKeyboard.rowLength(rowIndex, ignoreLastRow = true);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| rowIndex | The row to be emptied. | Integer | _false_ | n/a |
-| ignoreLastRow | Ignore last edited row | Boolean | _true_ | true
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| rowIndex | The row to be emptied. | Integer | false | - |
+| ignoreLastRow | Ignore last edited row | Boolean | true | true
 
 Returns the amount of buttons in a row.
 
 #### Buttons
-
 
 ##### .push()
 Adds `element` to the specified row.
@@ -126,14 +126,14 @@ Adds `element` to the specified row.
 Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the counter restart from their opposite bounds.
 
 ```javascript
-(new InlineKeyboard()).push(rowIndex, element, ignoreLastRow = true);
+inlineKeyboard.push(rowIndex, element, ignoreLastRow = true);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| rowIndex | The index of the row in which push. | Integer | _false_ | n/a
-| element | The element to push | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _false_ | n/a |
-| ignoreLastRow | Ignore last edited row | Boolean | _true_ | true
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| rowIndex | The index of the row in which push. | Integer | false | -
+| element | The element to push | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | false | - |
+| ignoreLastRow | Ignore last edited row | Boolean | true | true
 
 Returns the object itself for chaining;
 
@@ -142,37 +142,45 @@ Pops out the last element of a row.
 Please note that both `rowIndex < 0` and `rowIndex > rowQuantity`, will make the counter restart from their opposite bounds.
 
 ```javascript
-(new InlineKeyboard()).pop(rowIndex);
+inlineKeyboard.pop(rowIndex);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
 | ---------- | ----------- | ---- | -------- | ------------- |
-| rowIndex | The row from which pop the last element. | Integer | _false_ | n/a |
+| rowIndex | The row from which pop the last element. | Integer | false | - |
 
 Returns the object itself for chaining;
 
-##### Reply Keyboards
+___
+<br>
 
-##### Constructor
+### Reply Keyboards
+
+```javascript
+// keep this always as valid
+let replyKeyboard = new ReplyKeyboard();
+```
+
+#### Constructor
 ```javascript
 new ReplyKeyboard(...keys);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| keys | Multiple strings or objects for each button | [KeyboardButton](https://core.telegram.org/bots/api#keyboardbutton) | _false_ | n/a |
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| keys | Multiple strings or objects for each button | [KeyboardButton](https://core.telegram.org/bots/api#keyboardbutton) | false | - |
 
 
 ##### .addRow()
 Adds a new row with specified elements.
 
 ```javascript
-(new ReplyKeyboard()).addRow(...keys);
+replyKeyboard.addRow(...keys);
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| keys | One Object per button | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | _false_ | n/a |
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| keys | One Object per button | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | false | - |
 
 Returns the object itself (chaining) with `length` property for keyboard rows length.
 
@@ -180,12 +188,12 @@ Returns the object itself (chaining) with `length` property for keyboard rows le
 Returns a keyboard structure to open a ReplyKeyboard.
 
 ```javascript
-(new ReplyKeyboard()).open(options = { selective: false, one_time_keyboard: false, resize_keyboard: false });
+replyKeyboard.open(options = { selective: false, one_time_keyboard: false, resize_keyboard: false });
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| options | Options of the button | Object | _true_ | `{ selective: false, one_time_keyboard: false, resize_keyboard: false }`
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| options | Options of the button | Object | true | `{ selective: false, one_time_keyboard: false, resize_keyboard: false }`
 
 See for more: [Reply Keyboard Markup](https://core.telegram.org/bots/api#replykeyboardmarkup)
 
@@ -193,12 +201,12 @@ See for more: [Reply Keyboard Markup](https://core.telegram.org/bots/api#replyke
 Returns a keyboard structure to close a ReplyKeyboard.
 
 ```javascript
-(new ReplyKeyboard()).close(options = { selective: false });
+replyKeyboard.close(options = { selective: false });
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| options | Options of the button | Object | _true_ | `{ selective: false }`
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| options | Options of the button | Object | true | `{ selective: false }`
 
 See for more: [Reply Keyboard Remove](https://core.telegram.org/bots/api#replykeyboardremove)
 
@@ -207,6 +215,13 @@ Returns an array containing the keys which compose the keyboard.
 
 
 ##### Force Reply
+
+### Inline Keyboards
+
+```javascript
+// keep this always as valid
+let forceReply = new ForceReply();
+```
 
 ##### Constructor
 ```javascript
@@ -217,19 +232,21 @@ new ForceReply();
 Returns a keyboard structure for force reply.
 
 ```javascript
-(new ForceReply()).export(options = { selective: false });
+forceReply.export(options = { selective: false });
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| options | Options of the button | Object | _true_ | `{ selective: false }`
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| options | Options of the button | Object | true | `{ selective: false }`
 
 See for more: [ForceReply](https://core.telegram.org/bots/api#forcereply)
 
+___
+<br>
 
-#### Inherited methods and properties
+### Inherited methods and properties
 
-##### .export()
+#### .export()
 Returns a keyboard structure based on the type.
 
 ```javascript
@@ -237,12 +254,12 @@ Returns a keyboard structure based on the type.
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| options  | Options to be added to `reply_markup` object | Object | _true_ | { }
-| override | An override content to be sent in the structure | \<Any\> | _true_ | ""
+| ---------- | ----------- | ---- |:--------:|:-------------:|
+| options  | Options to be added to `reply_markup` object | Object | true | { }
+| override | An override content to be sent in the structure | \<Any\> | true | ""
 
 
-##### .extract()
+#### .extract()
 Returns the content of `reply_markup`.
 
 ```javascript
@@ -250,10 +267,10 @@ Returns the content of `reply_markup`.
 ```
 
 | Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | -------- | ------------- |
-| from | The structure obtained from .export() | Object | _false_ | n/a
+| ---------- | ----------- | ---- |:--------:| :-------------:|
+| from | The structure obtained from .export() | Object | false | -
 
 Throws error if in `from` there's not the property `reply_markup`.
 
-##### Getter: length
+#### Getter: length
 Returns the length of the keyboard (rows)

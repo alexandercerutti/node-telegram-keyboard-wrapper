@@ -1,10 +1,11 @@
 {
-  "name": "telegram-keyboard-wrapper",
-  "version": "1.0.1",
+  "name": "node-telegram-keyboard-wrapper",
+  "version": "1.1.0",
   "description": "A support to create keyboards in Telegram via bots",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+	"test": "mocha",
+	"example": "node examples/botExample.js"
   },
   "repository": {
     "type": "git",
@@ -12,7 +13,8 @@
   },
   "keywords": [
     "telegram",
-    "bot"
+    "bot",
+    "wrapper"
   ],
   "author": "Alexander P. Cerutti",
   "license": "MIT",
