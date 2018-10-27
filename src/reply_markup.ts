@@ -183,17 +183,36 @@ export class VisualKeyboard extends ReplyMarkup {
  * @param value - value to be checked
  * @param bound - limit value (e.g. array length)
  * @returns {number} corrected value
+ * @example (value: -4, bound: 0) => 0
+ * @example (value: 9, bound: 0) => 0
+ * @example (value: 5, bound: 4) => 1
+ * @example (value: 4, bound: 4) => 0
  */
 
 function outOfBoundsInverter(value: number, bound: number): number {
+	let depFork = deprecate;
+	depFork.stream = process.stdout;
+	depFork("outOfBoundsInverter changes index validation method. Unexpected behaviour may happen.");
+
+	if (bound <= 0 && (value < 0 || value > bound)) {
+		return 0;
+	}
+
 	if (value < 0) {
-		// e.g. value is -1, bound is 10 => 9
-		return bound + value;
+		let abs = Math.abs(value);
+		if (abs <= bound) {
+			return bound - abs;
+		}
+
+		if (abs >= bound) {
+			return abs % bound;
+		}
 	}
 
 	if (value >= bound) {
-		// e.g. value is 11, bound is 10 => 1
-		return value - bound;
+		// e.g. (value: 11, bound: 10) => 1
+		// e.g. (value: 6, bound 3) => 0
+		return value % bound;
 	}
 
 	return value;
