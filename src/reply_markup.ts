@@ -73,7 +73,11 @@ export class VisualKeyboard extends ReplyMarkup {
 	 * it will start from 0; if lower than 0, it will start from pool length - index.
 	 */
 
-	rowLength(index: number): number {
+	rowLength(index: number, ignoreLastRow: boolean = false): number {
+		if (ignoreLastRow) {
+			deprecate("ignoreLastRow usage in rowLength is deprecated and won't affect execution.");
+		}
+
 		let position = outOfBoundsInverter(index, this._content.length);
 		return this._content[position].length;
 	}
