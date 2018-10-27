@@ -116,6 +116,8 @@ export class VisualKeyboard extends ReplyMarkup {
 	 */
 
 	push(index: number, ...elements: (InlineKeyboardButton | KeyboardButton)[]): number {
+		deprecate("Push method does not return `this` anymore. Unexpected behaviour may happen.");
+
 		let position = outOfBoundsInverter(index, this._content.length);
 		this._content[position].push(...elements);
 
