@@ -1,11 +1,11 @@
-import deprecate from "deprecate";
-import { ForceReply, InlineKeyboardButton, KeyboardButton } from "node-telegram-bot-api";
-import { KeyboardType, Reply_markup, ReplyOpts } from "./model";
+import * as deprecate from "deprecate";
+import { InlineKeyboardButton, KeyboardButton, SendMessageOptions } from "node-telegram-bot-api";
+import { KeyboardType, ReplyOpts } from "./model";
 
 export class ReplyMarkup {
 	_type: KeyboardType;
-	_content: (InlineKeyboardButton | KeyboardButton)[][];
-	_override?: ForceReply = null;
+	_content: (InlineKeyboardButton | KeyboardButton | string)[][] = [];
+	_override?: any = null;
 
 	constructor(keyboardType?: KeyboardType) {
 		this._type = keyboardType;
@@ -53,7 +53,7 @@ export class VisualKeyboard extends ReplyMarkup {
 	 * @param rowsElements - InlineKeyboardButton elements to be pushed
 	 */
 
-	addRow(...rowsElements: InlineKeyboardButton[]): ThisType<ReplyMarkup> {
+	addRow(...rowsElements: InlineKeyboardButton[] | KeyboardButton[] | string[]): this {
 		this._content.push([...rowsElements]);
 
 		return this;
@@ -109,7 +109,7 @@ export class VisualKeyboard extends ReplyMarkup {
 	 * @returns The popped out element
 	 */
 
-	pop(index: number): InlineKeyboardButton | KeyboardButton {
+	pop(index: number): InlineKeyboardButton | KeyboardButton | string {
 		let position = outOfBoundsInverter(index, this._content.length);
 		return this._content[position].pop();
 	}
@@ -119,7 +119,7 @@ export class VisualKeyboard extends ReplyMarkup {
 	 * @returns {(InlineKeyboardButton | KeyboardButton)[]} The popped out row
 	 */
 
-	popRow(): (InlineKeyboardButton | KeyboardButton)[] {
+	popRow(): (InlineKeyboardButton | KeyboardButton | string)[] {
 		return this._content.pop();
 	}
 
