@@ -165,7 +165,7 @@ export class VisualKeyboard extends ReplyMarkup {
 
 	removeRow(index: number): ThisType<VisualKeyboard> {
 		let position = outOfBoundsInverter(index, this._content.length);
-		this._content.splice(position);
+		this._content.splice(position, 1);
 		return this;
 	}
 
