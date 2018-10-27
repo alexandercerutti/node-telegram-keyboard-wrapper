@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
-*.js
+*.ts
 *.code-workspace
-test/*.js
+test/*.ts
+tsconfig.json
