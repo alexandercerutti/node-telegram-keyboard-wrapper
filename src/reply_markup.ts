@@ -1,5 +1,5 @@
 import * as deprecate from "deprecate";
-import { InlineKeyboardButton, KeyboardButton, SendMessageOptions } from "node-telegram-bot-api";
+import { InlineKeyboardButton, KeyboardButton, SendMessageOptions, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply } from "node-telegram-bot-api";
 import { KeyboardType, ReplyOpts } from "./model";
 
 export class ReplyMarkup {
@@ -10,6 +10,12 @@ export class ReplyMarkup {
 	constructor(keyboardType?: KeyboardType) {
 		this._type = keyboardType;
 	}
+
+	/**
+	 * [DEPRECATED - use `build()`] Export the structure with reply_markup
+	 * @param options
+	 * @param override
+	 */
 
 	export(options = {}, override = "") {
 		deprecate("Using export() to get keyboard structure is deprecated. Please use build()");
@@ -26,13 +32,23 @@ export class ReplyMarkup {
 		return exportedStructure;
 	}
 
-	extract() {
+	/**
+	 * Extracts reply_markup object from build.
+	 * Useful in case of editMessageReplyMarkup usage in
+	 * node-telegram-bot-api
+	 */
+
+	extract(): InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply {
 		if (arguments.length == 1) {
 			deprecate("'from' argument in extract is deprecated and will not affect execution");
 		}
 
 		return this.build().reply_markup;
 	}
+
+	/**
+	 * Returns the structure containing reply_markup and the generated keyboard
+	 */
 
 	build(): SendMessageOptions {
 		return <ReplyOpts>{
@@ -60,7 +76,7 @@ export class VisualKeyboard extends ReplyMarkup {
 	}
 
 	/**
-	 * Returns keyboard rows length
+	 * Returns the amount of keyboard rows
 	 */
 
 	get length(): number {
