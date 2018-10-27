@@ -71,6 +71,12 @@ If you have any issue, suggestion of what else, feel free to open a topic in iss
 
 <hr>
 
+## Classes architecture:
+
+This library is divided in the following class architecture:
+
+![](https://i.imgur.com/2ZtRzJd.png)
+
 <a name="visual_keyboard"></a>
 ## Visual Keyboard
 
