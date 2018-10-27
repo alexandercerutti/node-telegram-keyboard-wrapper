@@ -1,29 +1,37 @@
 {
-  "name": "node-telegram-keyboard-wrapper",
-  "version": "1.1.0",
-  "description": "A support to create keyboards in Telegram via bots",
-  "main": "index.js",
-  "scripts": {
-	"test": "mocha",
-	"example": "node examples/botExample.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/alexandercerutti/node-telegram-keyboard-wrapper.git"
-  },
-  "keywords": [
-    "telegram",
-    "bot",
-    "wrapper"
-  ],
-  "author": "Alexander P. Cerutti",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/alexandercerutti/node-telegram-keyboard-wrapper/issues"
-  },
-  "homepage": "https://github.com/alexandercerutti/node-telegram-keyboard-wrapper#readme",
-  "devDependencies": {
-    "mocha": "^5.0.0",
-    "node-telegram-bot-api": "^0.30.0"
-  }
+	"name": "node-telegram-keyboard-wrapper",
+	"version": "1.1.0",
+	"description": "A support to create keyboards in Telegram via bots",
+	"main": "index.js",
+	"scripts": {
+		"test": "mocha",
+		"example": "node examples/botExample.js",
+		"build": "tsc",
+		"prepublishOnly": "tsc"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/alexandercerutti/node-telegram-keyboard-wrapper.git"
+	},
+	"keywords": [
+		"telegram",
+		"bot",
+		"wrapper"
+	],
+	"author": "Alexander P. Cerutti",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/alexandercerutti/node-telegram-keyboard-wrapper/issues"
+	},
+	"homepage": "https://github.com/alexandercerutti/node-telegram-keyboard-wrapper#readme",
+	"devDependencies": {
+		"@types/mocha": "^5.2.5",
+		"@types/node-telegram-bot-api": "^0.30.3",
+		"mocha": "^5.0.0",
+		"node-telegram-bot-api": "^0.30.0",
+		"typescript": "^3.1.3"
+	},
+	"dependencies": {
+		"deprecate": "^1.1.0"
+	}
 }
