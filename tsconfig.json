@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"newLine": "LF",
+		"target": "es6",
+		"types": [
+			"node-telegram-bot-api"
+		],
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
+	},
+	"exclude": [
+		"node_modules",
+	]
+}
