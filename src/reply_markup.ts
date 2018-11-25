@@ -3,9 +3,9 @@ import { InlineKeyboardButton, KeyboardButton, SendMessageOptions, InlineKeyboar
 import { KeyboardType, ReplyOpts } from "./model";
 
 export class ReplyMarkup {
-	_type: KeyboardType;
-	_content: (InlineKeyboardButton | KeyboardButton | string)[][] = [];
-	_override?: any = null;
+	protected _type: KeyboardType;
+	protected _content: (InlineKeyboardButton | KeyboardButton | string)[][] = [];
+	protected _override?: any = null;
 
 	constructor(keyboardType?: KeyboardType) {
 		this._type = keyboardType;
@@ -103,7 +103,7 @@ export class VisualKeyboard extends ReplyMarkup {
 	 * @param type - Must be one of `inline_keyboard`, `keyboard`, `remove_keyboard` or `force_reply`.
 	 */
 
-	setKeyboardType(type: KeyboardType) {
+	setKeyboardType(type: KeyboardType): void {
 		this._type = type;
 	}
 
@@ -175,7 +175,7 @@ export class VisualKeyboard extends ReplyMarkup {
 	 * Resets the whole keyboard.
 	 */
 
-	reset() {
+	reset(): void {
 		this._content = [];
 	}
 }
@@ -192,10 +192,6 @@ export class VisualKeyboard extends ReplyMarkup {
  */
 
 function outOfBoundsInverter(value: number, bound: number): number {
-	let depFork = deprecate;
-	depFork.stream = process.stdout;
-	depFork("outOfBoundsInverter changes index validation method. Unexpected behaviour may happen.");
-
 	if (bound <= 0 && (value < 0 || value > bound)) {
 		return 0;
 	}

@@ -1,6 +1,6 @@
 import { VisualKeyboard } from "./reply_markup";
 import { RKOpenOptions, RMSelective } from "./model";
-import { KeyboardButton } from "node-telegram-bot-api";
+import { KeyboardButton, SendMessageOptions } from "node-telegram-bot-api";
 
 export class ReplyKeyboard extends VisualKeyboard {
 	constructor(oneKey?: KeyboardButton) {
@@ -18,7 +18,7 @@ export class ReplyKeyboard extends VisualKeyboard {
 	 * @see https://core.telegram.org/bots/api#replykeyboardmarkup
 	 */
 
-	open(options: RKOpenOptions = {}) {
+	open(options: RKOpenOptions = {}): SendMessageOptions {
 		this.setKeyboardType("keyboard");
 
 		return Object.assign(this.build(), options);
@@ -30,7 +30,7 @@ export class ReplyKeyboard extends VisualKeyboard {
 	 * @see https://core.telegram.org/bots/api#replykeyboardremove
 	 */
 
-	close(options: RMSelective = {}) {
+	close(options: RMSelective = {}): SendMessageOptions {
 		this.setKeyboardType("remove_keyboard");
 		this._override = true;
 
