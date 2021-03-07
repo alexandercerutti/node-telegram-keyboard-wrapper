@@ -4,9 +4,11 @@
 	"description": "A support to create keyboards in Telegram via bots",
 	"main": "lib/index.js",
 	"scripts": {
-		"test": "npm run build -- spec/*.ts",
+		"build": "npm run build:src",
+		"test": "npm run build:spec && npx jasmine",
 		"example": "npm run build -- examples/botExample.ts && node examples/botExample.js",
-		"build": "npx tsc -p tsconfig.json",
+		"build:src": "rimraf lib && npx tsc -p tsconfig.dist.json",
+		"build:spec": "rimraf \"./spec/*.!(ts)\" && npx tsc -p tsconfig.spec.json",
 		"prepublishOnly": "npm run build"
 	},
 	"repository": {
@@ -29,6 +31,10 @@
 		"@types/node-telegram-bot-api": "^0.51.1",
 		"jasmine": "^3.6.4",
 		"node-telegram-bot-api": "^0.51.0",
+		"rimraf": "^3.0.2",
 		"typescript": "^4.2.3"
-	}
+	},
+	"files": [
+		"lib/**/*.+(js|d.ts)!(*.map)"
+	]
 }
