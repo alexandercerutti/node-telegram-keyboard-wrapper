@@ -25,7 +25,7 @@ interface SupportedOptions {
 	[SupportedOptionsKeys.PAY]: boolean;
 }
 
-export default class InlineKeyboardButton<T extends SupportedOptionsKeys> {
+export default class InlineKeyboardButton<T extends SupportedOptionsKeys = any> {
 	public readonly text: string;
 	public readonly exclusiveKey: T;
 	public readonly exclusiveValue: SupportedOptions[T];
