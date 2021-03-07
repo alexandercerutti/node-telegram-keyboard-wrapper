@@ -1,0 +1,45 @@
+import KeyboardButton from "./KeyboardButton";
+import Row from "./Row";
+
+interface ReplyKeyboardMarkupOptions {
+	keyboard: Array<Array<any>>; // @TODO improve type
+	resize_keyboard?: boolean;
+	one_time_keyboard?: boolean;
+	selective?: boolean;
+}
+
+export default class ReplyKeyboard<T extends KeyboardButton> extends Array<Row<T>> {
+	/**
+	 * Composes Markup for ReplyKeyboardMarkup
+	 * @see https://core.telegram.org/bots/api#replykeyboardmarkup
+	 *
+	 * @param options
+	 */
+
+	getMarkup(options: Omit<ReplyKeyboardMarkupOptions, "keyboard"> = {}): ReplyKeyboardMarkupOptions {
+		if (!this.length) {
+			throw new Error("No rows added to keyboard.");
+		}
+
+		const keyboard = Array.prototype.map.call(this, (row: Row<T>) => row.toJSON());
+
+		return {
+			...options,
+			keyboard,
+		};
+	}
+
+	/**
+	 * Composes Markup for ReplyKeyboardRemove
+	 * @see https://core.telegram.org/bots/api#replykeyboardremove
+	 *
+	 * @param selective
+	 */
+
+	remove(selective: boolean = false) {
+		return {
+			remove_keyboard: true,
+			selective,
+		};
+	}
+}
