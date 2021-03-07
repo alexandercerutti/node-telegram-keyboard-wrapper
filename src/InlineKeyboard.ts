@@ -13,7 +13,7 @@ export default class InlineKeyboard<T extends InlineKeyboardButton> extends Arra
 		}
 
 		return {
-			keyboard: Array.prototype.map.call(this, (row: Row<T>) => row.toJSON())
+			keyboard: this.map((row: Row<T>) => row.toJSON())
 		};
 	}
 }
