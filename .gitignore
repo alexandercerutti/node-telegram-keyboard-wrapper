@@ -2,5 +2,5 @@
 node_modules/
 *.js
 *.code-workspace
-spec/*.js
-spec/*.map
+*.map
+lib/*
