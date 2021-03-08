@@ -1,13 +1,3 @@
-const enum SupportedOptionsKeys {
-	URL = "url",
-	PAY = "pay",
-	LOGIN_URL = "login_url",
-	CALLBACK_DATA = "callback_data",
-	CALLBACK_GAME = "callback_game",
-	SWITCH_INLINE_QUERY = "switch_inline_query",
-	SWITCH_INLINE_QUERY_CURRENT_CHAT = "switch_inline_query_current_chat",
-}
-
 interface LoginUrl {
 	url: string;
 	forward_text?: string;
@@ -15,22 +5,22 @@ interface LoginUrl {
 	request_write_access?: string;
 }
 
-interface SupportedOptions {
-	[SupportedOptionsKeys.URL]: string,
-	[SupportedOptionsKeys.LOGIN_URL]: LoginUrl,
-	[SupportedOptionsKeys.CALLBACK_DATA]: string;
-	[SupportedOptionsKeys.SWITCH_INLINE_QUERY]: string;
-	[SupportedOptionsKeys.SWITCH_INLINE_QUERY_CURRENT_CHAT]: string;
-	[SupportedOptionsKeys.CALLBACK_GAME]: {};
-	[SupportedOptionsKeys.PAY]: boolean;
+interface InlineKeyboardSupportedProperties {
+	"url": string,
+	"login_url": LoginUrl,
+	"callback_data": string;
+	"switch_inline_query": string;
+	"switch_inline_query_current_chat": string;
+	"callback_game": {};
+	"pay": boolean;
 }
 
-export default class InlineKeyboardButton<T extends SupportedOptionsKeys = any> {
+export default class InlineKeyboardButton<P extends keyof InlineKeyboardSupportedProperties = keyof InlineKeyboardSupportedProperties> {
 	public readonly text: string;
-	public readonly exclusiveKey: T;
-	public readonly exclusiveValue: SupportedOptions[T];
+	public readonly exclusiveKey: keyof InlineKeyboardSupportedProperties;
+	public readonly exclusiveValue: InlineKeyboardSupportedProperties[P];
 
-	constructor(text: string, exclusiveKey: T, exclusiveValue: SupportedOptions[T]) {
+	constructor(text: string, exclusiveKey: P, exclusiveValue: InlineKeyboardSupportedProperties[P]) {
 		this.text = text;
 		this.exclusiveKey = exclusiveKey;
 		this.exclusiveValue = exclusiveValue;

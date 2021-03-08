@@ -1,7 +1,7 @@
 import InlineKeyboardButton from "./InlineKeyboardButton";
 import Row from "./Row";
 
-export default class InlineKeyboard<T extends InlineKeyboardButton> extends Array<Row<T>> {
+export default class InlineKeyboard extends Array<Row<InlineKeyboardButton>> {
 	/**
 	 * Composes Markup for InlineKeyboardMarkup
 	 * @see https://core.telegram.org/bots/api#inlinekeyboardmarkup
@@ -13,7 +13,7 @@ export default class InlineKeyboard<T extends InlineKeyboardButton> extends Arra
 		}
 
 		return {
-			keyboard: this.map((row: Row<T>) => row.toJSON())
+			keyboard: this.map((row) => row.toJSON())
 		};
 	}
 }

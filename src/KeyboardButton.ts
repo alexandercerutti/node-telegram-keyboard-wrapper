@@ -8,11 +8,11 @@ interface KeyboardButtonOptions {
 	request_poll?: KeyboardButtonPollType;
 }
 
-export default class KeyboardButton<T extends KeyboardButtonOptions = KeyboardButtonOptions> {
+export default class KeyboardButton {
 	public readonly text: string;
-	public readonly options: T;
+	public readonly options: KeyboardButtonOptions;
 
-	constructor(text: string, options: T = {} as T) {
+	constructor(text: string, options: KeyboardButtonOptions = {}) {
 		this.text = text;
 		this.options = options;
 
