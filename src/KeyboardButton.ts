@@ -13,8 +13,12 @@ export default class KeyboardButton {
 	public readonly options: KeyboardButtonOptions;
 
 	constructor(text: string, options: KeyboardButtonOptions = {}) {
-		this.text = text;
+		this.text = String(text);
 		this.options = options;
+
+		if (options && typeof options !== "object") {
+			throw new TypeError("Cannot accept a non-object as 'options' value");
+		}
 
 		Object.freeze(this);
 	}
