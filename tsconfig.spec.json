@@ -5,6 +5,5 @@
 	],
 	"compilerOptions": {
 		"sourceMap": true,
-		"outDir": "spec"
 	}
 }
