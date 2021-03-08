@@ -8,7 +8,7 @@ interface ReplyKeyboardMarkupOptions {
 	selective?: boolean;
 }
 
-export default class ReplyKeyboard<T extends KeyboardButton> extends Array<Row<T>> {
+export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 	/**
 	 * Composes Markup for ReplyKeyboardMarkup
 	 * @see https://core.telegram.org/bots/api#replykeyboardmarkup
@@ -21,7 +21,7 @@ export default class ReplyKeyboard<T extends KeyboardButton> extends Array<Row<T
 			throw new Error("No rows added to keyboard.");
 		}
 
-		const keyboard = this.map((row: Row<T>) => row.toJSON());
+		const keyboard = this.map((row) => row.toJSON());
 
 		return {
 			...options,
