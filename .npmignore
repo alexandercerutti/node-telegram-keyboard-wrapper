@@ -1,8 +1,0 @@
-.DS_Store
-node_modules/
-*.ts
-!index.d.ts
-*.code-workspace
-test/*.ts
-tsconfig.json
-examples/
