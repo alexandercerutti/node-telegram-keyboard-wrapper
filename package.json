@@ -6,7 +6,8 @@
 	"scripts": {
 		"build": "npm run build:src",
 		"test": "npm run build:spec && npx jasmine",
-		"example": "npm run build -- examples/botExample.ts && node examples/botExample.js",
+		"example": "cd examples && npm run example",
+		"build:example": "cd examples && npm run build:full",
 		"build:src": "rimraf lib && npx tsc -p tsconfig.dist.json",
 		"build:spec": "rimraf \"./spec/*.!(ts)\" && npx tsc -p tsconfig.spec.json",
 		"prepublishOnly": "npm run build"
