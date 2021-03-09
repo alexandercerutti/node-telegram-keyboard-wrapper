@@ -73,11 +73,9 @@ Use this method to export the structure to be sent to `reply_markup`.
 
 **Arguments**:
 
-- selective: `boolean`;
-
-**Telegram Bot API's Documentation Resources**:
-
-https://core.telegram.org/bots/api#forcereply
+| Argument  |  Type   | Required | Default Value |
+| --------- | :-----: | :------: | :-----------: |
+| selective | boolean |  false   |    `false`    |
 
 ---
 
