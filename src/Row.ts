@@ -5,7 +5,7 @@ type RowTypes = InlineKeyboardButton | KeyboardButton;
 
 export default class Row<R extends RowTypes> extends Array<R> {
 	toJSON() {
-		return Array.prototype.map
+		return this.map
 			.call(this, (element: RowTypes) => element.toJSON());
 	}
 }
