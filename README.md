@@ -1,504 +1,265 @@
 # Node telegram keyboard wrapper
 
-#### A support for telegram keyboards management, both inline and reply, and forceReply
+This libray aims to provide a set of classes to improve the creation of keyboards for Telegram bots and force-reply.
 
-This libray aims to provide a set of methods and classes to handle keyboards and force replies in node.js-written Telegram bots.
+Built upon [yagop's node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api), it can work with any Node.js Bot Api wrapper, as it exports Telegram Bot APIs-compliant JSON structures.
 
-Built upon [yagop's node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api) but can virtually work with any node.js telegram bot api wrapper.
+> ⚠ v3.0.0 of this library is a major rewrite from scratch that is not retro-compatible. Now it never exports an object with `reply_markup` but just its content, which varies from keyboard to keyboard. ⚠
 
-___
+---
 
-### Installation
+## Architecture
 
-From NPM:
+The philosophy behind this library, since v3, is to make it easier, through a series of state-less classes, to create the JSON structures to represent Rows, Buttons and the whole keyboards.
+
+To achieve this, both ReplyKeyboard and InlineKeyboard classes and Row class extend the native Array interface.
+
+Therefore you can do every operation you want just like you were acting on Arrays.
+
+---
+
+### Looking for previous version?
+
+I hope you don't, but if you really need it, [here it is](https://github.com/alexandercerutti/node-telegram-keyboard-wrapper/tree/v2.0.1).
+
+---
+
+### Install
 
 ```sh
-npm install -s node-telegram-keyboard-wrapper
+$ npm install --save node-telegram-keyboard-wrapper
 ```
 
-Downloading from Github, won't give the compiled version, so you'll have to do it by yourself.
+---
 
-```sh
-npm build
-```
-
-Tests for methods used by ReplyKeyboard and InlineKeyboard are included.
-
-```sh
-# Installing dev dependencies
-npm install -D
-npm test
-```
+### Example
 
 In examples folder, an example bot is available. It requires a bot token to be passed as argument.
 
 ```sh
-npm run example -- 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
+$ npm run example -- 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11
 ```
 
 Then just type `/replyKeyboard` (and answer or click to hide), `/inlineKeyboard` (and click to trigger) or `/forceReply` in your Telegram client to see the wrapper in action.
 
-If you have any issue, suggestion of what else, feel free to open a topic in issues. 😉
-
-<br>
-<hr>
-
+---
 
 ## API Reference
-<br>
-
-- [Visual Keyboards](#visual_keyboard)
-	- [.addRow()](#method_addrow)
-	- [.removeRow()](#method_removerow)
-	- [.emptyRow()](#method_emptyrow)
-	- [.popRow()](#method_poprow)
-	- [.rowLength()](#method_rowlength)
-	- [.push()](#method_push)
-	- [.pop()](#method_pop)
-	- [.reset()](#method_reset)
-	- [.Getter .length()](#getter_length)
-- [Inline Keyboard](#inline_keyboard)
-- [Reply Keyboards](#reply_keyboard)
-	- [.open()](#method_open)
-	- [.close()](#method_close)
-
-- [Force Reply](#force_reply)
-	- [.build()](#method_fbuild)
-
-- [Reply Markup - Inherited Methods](#reply_markup)
-	- [.build()](#method_build)
-	- [.extract()](#method_extract)
-
-<hr>
-
-## Classes architecture:
-
-This library is divided in the following class architecture:
-
-![](https://i.imgur.com/2ZtRzJd.png)
-
-<a name="visual_keyboard"></a>
-## Visual Keyboard
-
-<hr>
-
-This class get extended by **both** InlineKeyboards and
-ReplyKeyboards and extend ReplyMarkup class. Therefore, the methods inserted in here are valid for both.
 
 <br>
-<hr>
 
-### Rows methods
-<hr>
+- [ForceReply](#forcereply)
+  - [`static` .getMarker](#user-content-force-reply-getMarker)
+- [Row](#row)
+- [InlineKeyboard](#inlinekeyboard)
+  - [.getMarker](#user-content-inlinekeyboard-getMarker)
+- [InlineKeyboardButton](#inlinekeyboardbutton)
+- [ReplyKeyboard](#replykeyboard)
+  - [.getMarker](#user-content-replykeyboard-getMarker)
+  - [.remove](#user-content-replykeyboard-remove)
 
-<a name="method_addrow"></a>
+### ForceReply
 
-### .addRow()
-Adds a new row with specified elements.
+<a id="force-reply-getMarker"></a>
 
-```javascript
-(new InlineKeyboard()).addRow(...keys) : this
-(new ReplyKeyboard()).addRow(...keys) : this
+#### `static` Get Marker
+
+```typescript
+ForceReply.getMarker(selective: boolean = false): Object;
+
+ForceReply.getMarker();
+ForceReply.getMarker(true);
 ```
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| keys | One Object per button | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | false | - |
-
-Returns the object itself for chaining;
-
-<br>
-<br>
-<hr>
-
-<a name="method_removerow"></a>
-
-### .removeRow()
-
-```javascript
-(new InlineKeyboard()).removeRow(index) : this
-(new ReplyKeyboard()).removeRow(index) : this
-```
-
-**Returns**:
-
-The object itself for chaining;
-
-**Description**:
-
-Removed a specific row.
-
-Both row indexes `index < 0` and `index > rowQuantity`, will make the counter restart from their opposite bound.
+Use this method to export the structure to be sent to `reply_markup`.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| index | The row to be removed. | Integer | false | - |
+- selective: `boolean`;
 
-<br>
-<br>
-<hr>
+**Telegram Bot API's Documentation Resources**:
 
-<a name="method_emptyrow"></a>
+https://core.telegram.org/bots/api#forcereply
 
-### .emptyRow()
+---
 
-```javascript
-(new InlineKeyboard()).emptyRow(index) : Number
-(new ReplyKeyboard()).emptyRow(index) : Number
+### Row (extends `Array.prototype`)
+
+```typescript
+new Row<R extends InlineKeyboardButton | KeyboardButton>(...values: R[]): Row;
 ```
 
-**Returns**:
+Use this class to define a row to which button can be appended to.
 
-The index of the emptied row.
+Push this class into an InlineKeyboard or a ReplyKeyboard to let them create the structure.
 
-**Description**:
-
-Empty an entire row of keys but without removing the row.
-
-Please note that both `index < 0` and `index > rowQuantity`, will make the counter restart from their opposite bounds.
+This class extends native arrays and, therefore, allows every operation you can perform on Arrays to be performed on this.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| index | The row to be emptied. | Integer | false | - |
+Inherited from Array's constructor.
 
-<br>
-<br>
-<hr>
+---
 
-<a name="method_poprow"></a>
+### InlineKeyboard (extends `Array.prototype`)
 
-### .popRow()
-
-```javascript
-(new InlineKeyboard()).popRow(index) : (InlineKeyboardButton | KeyboardButton | string)[]
-(new ReplyKeyboard()).popRow(index) : (InlineKeyboardButton | KeyboardButton | string)[]
+```typescript
+new InlineKeyboard(...values: Row<InlineKeyboardButton>[]): InlineKeyboard;
 ```
 
-**Returns**:
+Use this class to create a container for InlineKeyboards.
 
-Returns the popped out row (array of the above element).
-
-**Description**:
-
-Pops out the last row of the keyboard.
-
-<br>
-<hr>
-
-<a name="method_rowlength"></a>
-
-### .rowLength()
-
-```javascript
-(new InlineKeyboard()).rowLength(index) : Number
-(new ReplyKeyboard()).rowLength(index) : Number
-```
-
-**Returns**:
-
-The length of a specific row.
-
-**Description**:
-
-Both row indexes `index < 0` and `index > rowQuantity`, will make the counter restart from their opposite bounds.
+This class extends the native Array interface, therefore every operation you can perform on Arrays is allowed to be performed on this.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| index | The row to be emptied. | Integer | false | - |
+Inherited from Array's constructor.
 
-Returns the amount of buttons in a row.
+<a id="inlinekeyboard-getMarker"></a>
 
-<br>
-<br>
-<hr>
+#### getMarkup
 
-### Buttons operations
-<hr>
-<br>
+```typescript
+InlineKeyboard.prototype.getMarkup(): Object;
 
-<a name="method_push"></a>
-
-### .push()
-
-```javascript
-(new InlineKeyboard()).push(index, ...elements) : Number;
-(new ReplyKeyboard()).push(index, ...elements) : Number;
+const keyboard = new InlineKeyboard();
+keyboard.getMarkup();
 ```
 
-**Returns:**
+Use this method method to export the structure to be sent to `reply_markup`.
 
-The new length of the current row.
-
-**Description:**
-
-Adds `elements` to the specified row.
-
-Both row indexes `index < 0` and `index > rowQuantity`, will make the counter restart from their opposite bounds.
+**Throws if no rows got pushed in the object**.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| index | The index of the row in which push. | Integer | false | -
-| ... elements | The elements to be pushed | Array<[InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton)> | false | - |
+none.
 
+---
 
-<br>
-<hr>
+### InlineKeyboardButton
 
-<a name="method_pop"></a>
-
-### .pop()
-
-```javascript
-(new InlineKeyboard()).pop(index) : InlineKeyboardButton | KeyboardButton | string
-(new ReplyKeyboard()).pop(index) : InlineKeyboardButton | KeyboardButton | string
+```typescript
+new InlineKeyboardButton<S extends string>(text: string, exclusiveKey: S, exclusiveValue: T[S]): InlineKeyboardButton;
 ```
 
-**Returns**:
-
-The popped out element.
-
-**Description**:
-
-Pops out the last element of a row.
-Both row indexes `index < 0` and `index > rowQuantity`, will make the counter restart from their opposite bounds.
+Use this method to create a button to be pushed in a Row.
+As per the Telegram Bot API Documentation, each InlineKeyboardButton **must have only one of the optional properties**.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- | :--------: | :-------------: |
-| index | The row from which pop the last element. | Integer | false | - |
+| Argument       |       Type       | Required | Default Value | Description                                                |
+| -------------- | :--------------: | :------: | :-----------: | ---------------------------------------------------------- |
+| text           |      string      |   true   |       -       | The visual string to be shown on the button.               |
+| exclusiveKey   | S extends string |   true   |       -       | The required key for this button.                          |
+| exclusiveValue |       T[S]       |   true   |       -       | the value for `exclusiveKey` (it differs from key to key). |
 
-<br>
-<hr>
+For the valid values of `exclusiveKey` and `exclusiveValue` refer to [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton);
 
-<a name="method_reset"></a>
+**Example**:
 
-### .reset()
+```typescript
+const row = new Row<InlineKeyboardButton>();
 
-```javascript
-(new InlineKeyboard()).reset()
-(new ReplyKeyboard()).reset()
+row.push(
+	new InlineKeyboardButton("My text", "url", "https://localhost:8080/"),
+	new InlineKeyboardButton(
+		"My text 2",
+		"callback_data",
+		"any data between 1 and 64 bytes"
+	)
+);
 ```
 
-**Description**:
+---
 
-Wipes out the whole content.
-Probabily the most useless method.
-I mean: if you want to create a new keyboard, you don't wipe out your old, but create a brand new one.
+### ReplyKeyboard (extends `Array.prototype`)
 
-<br>
-<hr>
-
-<a name="getter_length"></a>
-
-### Getter .length
-
-```javascript
-(new InlineKeyboard()).length : Number
-(new ReplyKeyboard()).length : Number
+```typescript
+new ReplyKeyboard(...values: Row<KeyboardButton>[]): ReplyKeyboard;
 ```
 
-**Returns**:
+Use this class to create a new keyboard that is going to showup under the text area in your Telegram client.
 
-The amount rows in the keyboard.
-
-
-<br>
-<hr>
-
-<a name="inline_keyboard"></a>
-
-## Inline Keyboards
-<hr>
-
-
-Inline keyboards do not extend Visual Keyboard class with any new method.
-<br>
-
-### Constructor
-```javascript
-new InlineKeyboard(oneKey?);
-```
-
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| oneKey | Fastest way to have one-button keyboard. | [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton) | true | - |
-
-<br>
-<br>
-
-<br>
-<hr>
-
-<a name="reply_keyboard"></a>
-
-## Reply Keyboards
-<hr>
-<br>
-
-
-```javascript
-// keep this always as valid
-let replyKeyboard = new ReplyKeyboard();
-```
-
-### Constructor
-```javascript
-new ReplyKeyboard(oneKey?);
-```
-
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| oneKey | Useful for one-button only keyboards. | [KeyboardButton](https://core.telegram.org/bots/api#keyboardbutton) \| String | true | - |
-
-<br>
-<hr>
-
-<a name="method_open"></a>
-
-### .open()
-
-```javascript
-replyKeyboard.open(options?);
-```
-
-**Returns**:
-
-Keyboard structure to open a ReplyKeyboard.
+This class extends the native Array interface, therefore every operation you can perform on Arrays is allowed to be performed on this.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| options | Options of the button | Object | true | `{}`
-| options.selective | If true, valid only for specific users (e.g. Mentioned), Users which replied the bot of original sender | Boolean | true | `false`
-| options.one_time_keyboard | Hides the keyboard after the first usage. | Boolean | true | `false`
-| options.resize_keyboard | Tells telegram client to use smaller buttons | Boolean | true | `false`
+Inherited from Array's constructor.
 
-**See more**: [Reply Keyboard Markup](https://core.telegram.org/bots/api#replykeyboardmarkup)
+<a id="replykeyboard-getMarker"></a>
 
-<br>
-<hr>
+#### getMarkup
 
-<a name="method_close"></a>
+```typescript
+ReplyKeyboard.prototype.getMarkup(): Object;
 
-### .close()
-
-```javascript
-replyKeyboard.close(options?);
+const keyboard = new ReplyKeyboard();
+keyboard.getMarkup();
 ```
 
-**Returns**:
+Use this method method to export the structure to be sent to `reply_markup` for opening the keyboard.
 
-Keyboard structure to close a ReplyKeyboard.
+**Throws if no rows got pushed in the object**.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| options | Options of the button | Object | true | `{}`
-| options.selective | If true, valid only for specific users (e.g. Mentioned), Users which replied the bot of original sender | Boolean | true | `false`
+| Argument                  |  Type   | Required | Default Value |
+| ------------------------- | :-----: | :------: | :-----------: |
+| options                   | Object  |  false   |     `{}`      |
+| options.resize_keyboard   | boolean |  false   |  `undefined`  |
+| options.one_time_keyboard | boolean |  false   |  `undefined`  |
+| options.selective         | boolean |  false   |  `undefined`  |
 
-**See**: [Reply Keyboard Remove](https://core.telegram.org/bots/api#replykeyboardremove)
+<br />
+<br />
 
-<br>
-<br>
+This list might get outdated. The arguments are used as they are passed.
+Refer to [ReplyKeyboardMarkup](https://core.telegram.org/bots/api#replykeyboardmarkup) for, eventually, the complete list.
 
-<br>
-<hr>
+<br />
 
-<a name="force_reply"></a>
+---
 
-## Force Reply
-<hr>
-<br>
+<a id="replyreyboard-remove"></a>
 
+#### remove
 
-```javascript
-// keep this always as valid
-let forceReply = new ForceReply();
+```typescript
+ReplyKeyboard.prototype.remove(): Object;
+
+const keyboard = new ReplyKeyboard();
+keyboard.remove();
 ```
 
-### Constructor
-```javascript
-new ForceReply();
-```
+Use this method method to export the structure to be sent to `reply_markup` for closing definitely the keyboard.
 
-<br>
-<hr>
-
-<a name="method_fbuild"></a>
-
-### _@override_ .build()
-
-```javascript
-forceReply.export(options?);
-```
-
-**Returns**:
-
-Returns a keyboard structure for force reply.
+**Throws if no rows got pushed in the object**.
 
 **Arguments**:
 
-| Parameters | Description | Type | Optional | Default value |
-| ---------- | ----------- | ---- |:--------:|:-------------:|
-| options | Options of the button | Object | true | `{}`
-| options.selective | If true, valid only for specific users (e.g. Mentioned), Users which replied the bot of original sender | Boolean | true | `false`
+| Argument  |  Type   | Required | Default Value |
+| --------- | :-----: | :------: | :-----------: |
+| selective | boolean |  false   |    `false`    |
 
-**See**: [ForceReply](https://core.telegram.org/bots/api#forcereply)
+<br />
 
-<br>
-<br>
+---
 
-<hr>
+<br />
 
-<a name="reply_markup"></a>
+### Testing
 
-### Inherited methods and properties
-<hr>
+Tests are build upon Jasmine Unit suite.
+Run these commands to test changes after have cloned the repository:
 
-These methods are inherited from ReplyMarkup class, which gets inherited by both Visual Keyboards and ForceReply.
+```sh
+$ npm install
 
-<br>
-<hr>
-
-<a name="method_build"></a>
-
-### .build()
-Returns a keyboard structure based on the type.
-
-```javascript
-(new InlineKeyboard()).build();
-(new ReplyKeyboard()).build();
-(new ForceReply()).build();
+$ npm run build # to build from Typescript
+$ npm run build:spec # to build tests
+$ npm test # to both build tests and run them
 ```
 
-**Returns**:
+---
 
-A built structure conforming to Telegram keyboards.
-
-<br>
-<hr>
-
-<a name="method_extract"></a>
-
-### .extract()
-
-```javascript
-(new InlineKeyboard()).extract();
-(new ReplyKeyboard()).extract();
-(new ForceReply()).extract();
-```
-
-**Returns**:
-
-Returns the content of `reply_markup`.
+Any contribution, is welcome. Made with ❤️ in Italy.
