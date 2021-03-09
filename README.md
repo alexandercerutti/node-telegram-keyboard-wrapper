@@ -49,7 +49,7 @@ Then just type `/replyKeyboard` (and answer or click to hide), `/inlineKeyboard`
 <br>
 
 - [ForceReply](#forcereply)
-  - [`static` .getMarkup](#user-content-static-get-marker)
+  - [`static` .getMarkup](#user-content-static-getmarkup)
 - [Row](#user-content-row-extends-arrayprototype)
 - [InlineKeyboard](#user-content-inlinekeyboard-extends-arrayprototype)
   - [.getMarkup](#user-content-getmarkup)
