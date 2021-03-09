@@ -4,8 +4,8 @@ import KeyboardButton from "./KeyboardButton";
 type RowTypes = InlineKeyboardButton | KeyboardButton;
 
 export default class Row<R extends RowTypes> extends Array<R> {
-	toJSON() {
+	getJSON() {
 		return this.map
-			.call(this, (element: RowTypes) => element.toJSON());
+			.call(this, (element: RowTypes) => element.getJSON());
 	}
 }

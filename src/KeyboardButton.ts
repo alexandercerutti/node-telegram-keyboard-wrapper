@@ -23,7 +23,7 @@ export default class KeyboardButton {
 		Object.freeze(this);
 	}
 
-	toJSON() {
+	getJSON() {
 		return {
 			text: this.text,
 			...this.options

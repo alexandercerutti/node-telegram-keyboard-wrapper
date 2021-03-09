@@ -21,7 +21,7 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 			throw new Error("No rows added to keyboard.");
 		}
 
-		const keyboard = this.map((row) => row.toJSON());
+		const keyboard = this.map((row) => row.getJSON());
 
 		return {
 			...options,

@@ -13,7 +13,7 @@ export default class InlineKeyboard extends Array<Row<InlineKeyboardButton>> {
 		}
 
 		return {
-			keyboard: this.map((row) => row.toJSON())
+			keyboard: this.map((row) => row.getJSON())
 		};
 	}
 }

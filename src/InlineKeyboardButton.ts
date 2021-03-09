@@ -32,7 +32,7 @@ export default class InlineKeyboardButton<P extends keyof InlineKeyboardSupporte
 		Object.freeze(this);
 	}
 
-	toJSON() {
+	getJSON() {
 		return {
 			text: this.text,
 			[this.exclusiveKey]: this.exclusiveValue
