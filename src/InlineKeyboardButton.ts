@@ -1,13 +1,11 @@
-interface LoginUrl {
-	url: string;
-	forward_text?: string;
-	bot_username?: string;
-	request_write_access?: string;
-}
-
 interface InlineKeyboardSupportedProperties {
 	"url": string,
-	"login_url": LoginUrl,
+	"login_url": {
+		url: string;
+		forward_text?: string;
+		bot_username?: string;
+		request_write_access?: string;
+	};
 	"callback_data": string;
 	"switch_inline_query": string;
 	"switch_inline_query_current_chat": string;
