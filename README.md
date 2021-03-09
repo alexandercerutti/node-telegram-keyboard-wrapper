@@ -1,10 +1,10 @@
 # Node telegram keyboard wrapper
 
-This libray aims to provide a set of classes to improve the creation of keyboards for Telegram bots and force-reply.
+This libray aims to provide a set of classes to improve the creation of keyboards and setup for force-reply in Telegram bots.
 
 Built upon [yagop's node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api), it can work with any Node.js Bot Api wrapper, as it exports Telegram Bot APIs-compliant JSON structures.
 
-> ⚠ v3.0.0 of this library is a major rewrite from scratch that is not retro-compatible. Now it never exports an object with `reply_markup` but just its content, which varies from keyboard to keyboard. ⚠
+> ⚠ v3.0.0 of this library is a major rewrite that is not retro-compatible. Now it never exports an object with `reply_markup` but just its content, which varies from keyboard to keyboard. ⚠
 
 ---
 
@@ -49,26 +49,24 @@ Then just type `/replyKeyboard` (and answer or click to hide), `/inlineKeyboard`
 <br>
 
 - [ForceReply](#forcereply)
-  - [`static` .getMarker](#user-content-force-reply-getMarker)
-- [Row](#row)
-- [InlineKeyboard](#inlinekeyboard)
-  - [.getMarker](#user-content-inlinekeyboard-getMarker)
-- [InlineKeyboardButton](#inlinekeyboardbutton)
-- [ReplyKeyboard](#replykeyboard)
-  - [.getMarker](#user-content-replykeyboard-getMarker)
-  - [.remove](#user-content-replykeyboard-remove)
+  - [`static` .getMarkup](#user-content-static-get-marker)
+- [Row](#user-content-row-extends-arrayprototype)
+- [InlineKeyboard](#user-content-inlinekeyboard-extends-arrayprototype)
+  - [.getMarkup](#user-content-getmarkup)
+- [InlineKeyboardButton](#user-content-inlinekeyboardbutton)
+- [ReplyKeyboard](#user-content-replykeyboard-extends-arrayprototype)
+  - [.getMarkup](#user-content-getmarkup-1)
+  - [.remove](#user-content-remove)
 
 ### ForceReply
 
-<a id="force-reply-getMarker"></a>
-
-#### `static` Get Marker
+#### `static` `.getMarkup`
 
 ```typescript
-ForceReply.getMarker(selective: boolean = false): Object;
+ForceReply.getMarkup(selective: boolean = false): Object;
 
-ForceReply.getMarker();
-ForceReply.getMarker(true);
+ForceReply.getMarkup();
+ForceReply.getMarkup(true);
 ```
 
 Use this method to export the structure to be sent to `reply_markup`.
@@ -115,9 +113,9 @@ This class extends the native Array interface, therefore every operation you can
 
 Inherited from Array's constructor.
 
-<a id="inlinekeyboard-getMarker"></a>
+---
 
-#### getMarkup
+#### `.getMarkup`
 
 ```typescript
 InlineKeyboard.prototype.getMarkup(): Object;
@@ -186,9 +184,9 @@ This class extends the native Array interface, therefore every operation you can
 
 Inherited from Array's constructor.
 
-<a id="replykeyboard-getMarker"></a>
+---
 
-#### getMarkup
+#### `.getMarkup`
 
 ```typescript
 ReplyKeyboard.prototype.getMarkup(): Object;
@@ -220,9 +218,7 @@ Refer to [ReplyKeyboardMarkup](https://core.telegram.org/bots/api#replykeyboardm
 
 ---
 
-<a id="replyreyboard-remove"></a>
-
-#### remove
+#### `.remove`
 
 ```typescript
 ReplyKeyboard.prototype.remove(): Object;
@@ -244,8 +240,6 @@ Use this method method to export the structure to be sent to `reply_markup` for 
 <br />
 
 ---
-
-<br />
 
 ### Testing
 
