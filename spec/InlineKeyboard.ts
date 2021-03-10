@@ -29,7 +29,7 @@ describe("InlineKeyboard", () => {
 		keyboard.push(row1, row2);
 
 		expect(keyboard.getMarkup()).toEqual({
-			keyboard: [
+			inline_keyboard: [
 				[
 					{
 						text: "My first button",

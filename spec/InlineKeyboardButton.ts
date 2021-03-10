@@ -14,7 +14,7 @@ describe("InlineKeyboardButton", () => {
 	it("Should return a valid object when all arguments are correct ", () => {
 		const button = new InlineKeyboardButton("My first button", "url", "https://localhost:8080/");
 
-		expect(button.toJSON()).toEqual({
+		expect(button.getJSON()).toEqual({
 			text: "My first button",
 			url: "https://localhost:8080/"
 		});

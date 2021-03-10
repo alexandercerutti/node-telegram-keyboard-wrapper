@@ -10,7 +10,7 @@ describe("KeyboardButton", () => {
 	it("Should return a valid object when no options are provided", () => {
 		const button = new KeyboardButton("My first button");
 
-		expect(button.toJSON()).toEqual({
+		expect(button.getJSON()).toEqual({
 			text: "My first button",
 		});
 	});
@@ -20,15 +20,15 @@ describe("KeyboardButton", () => {
 		const button2 = new KeyboardButton("My second button", null);
 		const button3 = new KeyboardButton("My third button", undefined);
 
-		expect(button1.toJSON()).toEqual({
+		expect(button1.getJSON()).toEqual({
 			text: "My first button",
 		});
 
-		expect(button2.toJSON()).toEqual({
+		expect(button2.getJSON()).toEqual({
 			text: "My second button",
 		});
 
-		expect(button3.toJSON()).toEqual({
+		expect(button3.getJSON()).toEqual({
 			text: "My third button",
 		});
 	});
@@ -42,7 +42,7 @@ describe("KeyboardButton", () => {
 			}
 		});
 
-		expect(button.toJSON()).toEqual({
+		expect(button.getJSON()).toEqual({
 			text: "My second button",
 			request_contact: true,
 			request_location: false,
