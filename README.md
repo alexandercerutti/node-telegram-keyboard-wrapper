@@ -311,10 +311,6 @@ new KeyboardButton<S extends string>(text: string, options: Options): KeyboardBu
 
 Use this method to create a button to be pushed in a Row.
 
-    request_contact?: boolean;
-    request_location?: boolean;
-    request_poll?: KeyboardButtonPollType;
-
 **Arguments**:
 
 | Argument                  |        Type         | Required | Default Value | Description                                  |
