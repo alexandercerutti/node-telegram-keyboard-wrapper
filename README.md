@@ -1,10 +1,10 @@
 # Node telegram keyboard wrapper
 
-This libray aims to provide a set of classes to improve the creation of keyboards and setup for force-reply in Telegram bots.
+This library aims to provide a set of classes to improve the creation of keyboards and setup for force-reply in Telegram bots.
 
 Built upon [yagop's node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api), it can work with any Node.js Bot Api wrapper, as it exports Telegram Bot APIs-compliant JSON structures.
 
-> ⚠ v3.0.0 of this library is a major rewrite that is not retro-compatible. Now it never exports an object with `reply_markup` but just its content, which varies from keyboard to keyboard. ⚠
+> ⚠ v3.0.0 of this library is a major rewrite that is not retro-compatible. It doesn't export anymore an object with `reply_markup`. From now on, it will export just the content for `reply_markup`, which will vary from keyboard to keyboard. ⚠
 
 ---
 
@@ -91,7 +91,7 @@ Use this method to export the structure to be sent to `reply_markup`.
 new Row<R extends InlineKeyboardButton | KeyboardButton>(...values: R[]): Row;
 ```
 
-Use this class to define a row to which button can be appended to.
+Use this class to define a row to which buttons can be appended to.
 
 Push this class into an InlineKeyboard or a ReplyKeyboard to let them create the structure.
 
@@ -143,7 +143,7 @@ const keyboard = new InlineKeyboard();
 keyboard.getMarkup();
 ```
 
-Use this method method to export the structure to be sent to `reply_markup`.
+Use this method to export the structure to be sent to `reply_markup`.
 
 **Throws if no rows got pushed in the object**.
 
@@ -225,7 +225,7 @@ Creates a copy of the button and objects inside it.
 new ReplyKeyboard(...values: Row<KeyboardButton>[]): ReplyKeyboard;
 ```
 
-Use this class to create a new keyboard that is going to showup under the text area in your Telegram client.
+Use this class to create a new keyboard that is going to show up under the text area in your Telegram client.
 
 This class extends the native Array interface, therefore every operation you can perform on Arrays is allowed to be performed on this.
 
@@ -244,7 +244,7 @@ const keyboard = new ReplyKeyboard();
 keyboard.getMarkup();
 ```
 
-Use this method method to export the structure to be sent to `reply_markup` for opening the keyboard.
+Use this method to export the structure to be sent to `reply_markup` for opening the keyboard.
 
 **Throws if no rows got pushed in the object**.
 
@@ -261,7 +261,7 @@ Use this method method to export the structure to be sent to `reply_markup` for 
 <br />
 
 This list might get outdated. The arguments are used as they are passed.
-Refer to [ReplyKeyboardMarkup](https://core.telegram.org/bots/api#replykeyboardmarkup) for, eventually, the complete list.
+Refer to [ReplyKeyboardMarkup](https://core.telegram.org/bots/api#replykeyboardmarkup) for the complete list, eventually.
 
 <br />
 
@@ -276,7 +276,7 @@ const keyboard = new ReplyKeyboard();
 keyboard.remove();
 ```
 
-Use this method method to export the structure to be sent to `reply_markup` for closing definitely the keyboard.
+Use this method to export the structure to be sent to `reply_markup` for closing definitely the keyboard.
 
 **Arguments**:
 
