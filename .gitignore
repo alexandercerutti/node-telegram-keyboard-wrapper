@@ -2,4 +2,6 @@
 node_modules/
 *.js
 *.code-workspace
-test/*.js
+*.map
+lib/*
+examples/*.js

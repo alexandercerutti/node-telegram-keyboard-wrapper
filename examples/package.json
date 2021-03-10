@@ -1,0 +1,26 @@
+{
+	"name": "examples",
+	"version": "0.0.0",
+	"private": true,
+	"description": "Examples package",
+	"scripts": {
+		"preinstall": "npm run clear:deps && npm unlink --no-save node-telegram-keyboard-wrapper",
+		"postinstall": "cd .. && npm run build && npm link && cd examples && npm link node-telegram-keyboard-wrapper",
+		"build": "npx tsc",
+		"build:full": "npm run clear:deps && npm install && npm run build",
+		"clear:deps": "rm -rf node_modules",
+		"example": "node botExample.js",
+		"example:debug": "node --inspect-brk botExample.js"
+	},
+	"author": "Alexander P. Cerutti <cerutti.alexander@gmail.com>",
+	"license": "ISC",
+	"peerDependencies": {
+		"node-telegram-keyboard-wrapper": "latest"
+	},
+	"dependencies": {
+		"node-telegram-bot-api": "^0.51.0"
+	},
+	"devDependencies": {
+		"typescript": "^4.2.3"
+	}
+}
