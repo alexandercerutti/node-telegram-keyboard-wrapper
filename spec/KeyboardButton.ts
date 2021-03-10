@@ -62,4 +62,20 @@ describe("KeyboardButton", () => {
 			button.text = "Another text";
 		}).toThrow();
 	});
+
+	it("Should be cloned correctly", () => {
+		const button1 = new KeyboardButton("My Button");
+		const button2 = new KeyboardButton("My Button 2 With Payload", { request_contact: true, request_location: false });
+
+		const clone1 = button1.clone();
+		const clone2 = button2.clone();
+
+		expect(clone1).not.toBe(button1);
+		expect(clone1.text).toBe(button1.text);
+
+		expect(clone2).not.toBe(button2);
+		expect(clone2.text).toBe(button2.text);
+		expect(clone2.options).toEqual(button2.options);
+		expect(clone2.options).not.toBe(button2.options);
+	});
 });

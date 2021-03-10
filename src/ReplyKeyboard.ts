@@ -42,4 +42,15 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 			selective,
 		};
 	}
+
+	/**
+	 * Clones recursively the whole keyboard and returns
+	 * a new image of the keyboard.
+	 */
+
+	clone() {
+		return new ReplyKeyboard(
+			...this.map((row) => row.clone())
+		);
+	}
 }

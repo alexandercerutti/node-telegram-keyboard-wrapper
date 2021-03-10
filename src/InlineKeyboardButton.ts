@@ -30,6 +30,11 @@ export default class InlineKeyboardButton<P extends keyof InlineKeyboardSupporte
 		Object.freeze(this);
 	}
 
+	clone() {
+		const exclusiveValue = typeof this.exclusiveValue === "object" ? Object.assign({}, this.exclusiveValue) : this.exclusiveValue;
+		return new InlineKeyboardButton(this.text, this.exclusiveKey, exclusiveValue);
+	}
+
 	getJSON() {
 		return {
 			text: this.text,

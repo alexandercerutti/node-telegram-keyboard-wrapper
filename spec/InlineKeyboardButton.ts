@@ -30,4 +30,23 @@ describe("InlineKeyboardButton", () => {
 			button.text = "Another text";
 		}).toThrow();
 	});
+
+	it("Should be cloned correctly", () => {
+		const button1 = new InlineKeyboardButton("My Button", "url", "https://localhost:8080");
+		const button2 = new InlineKeyboardButton("My Button 2 With Login Payload", "login_url", { url: "https://localhost:8081", bot_username: "@bot_father", forward_text: "No" });
+
+		const clone1 = button1.clone();
+		const clone2 = button2.clone();
+
+		expect(clone1).not.toBe(button1);
+		expect(clone1.text).toBe(button1.text);
+		expect(clone1.exclusiveKey).toBe(button1.exclusiveKey);
+		expect(clone1.exclusiveValue).toBe(clone1.exclusiveValue);
+
+		expect(clone2).not.toBe(button2);
+		expect(clone2.text).toBe(button2.text);
+		expect(clone2.exclusiveKey).toBe(button2.exclusiveKey);
+		expect(clone2.exclusiveValue).not.toBe(button2.exclusiveValue);
+		expect(clone2.exclusiveValue).toEqual(clone2.exclusiveValue);
+	});
 });

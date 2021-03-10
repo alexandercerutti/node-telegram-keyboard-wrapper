@@ -51,12 +51,18 @@ Then just type `/replyKeyboard` (and answer or click to hide), `/inlineKeyboard`
 - [ForceReply](#forcereply)
   - [`static` .getMarkup](#user-content-static-getmarkup)
 - [Row](#user-content-row-extends-arrayprototype)
+  - [.clone]()
 - [InlineKeyboard](#user-content-inlinekeyboard-extends-arrayprototype)
   - [.getMarkup](#user-content-getmarkup)
+  - [.clone]()
 - [InlineKeyboardButton](#user-content-inlinekeyboardbutton)
+  - [.clone]()
 - [ReplyKeyboard](#user-content-replykeyboard-extends-arrayprototype)
   - [.getMarkup](#user-content-getmarkup-1)
   - [.remove](#user-content-remove)
+  - [.clone]()
+- [KeyboardButton]()
+  - [.clone]()
 
 ### ForceReply
 
@@ -97,6 +103,21 @@ Inherited from Array's constructor.
 
 ---
 
+#### `.clone`
+
+```typescript
+Row.prototype.clone(): Row<R>;
+
+const row = new Row<KeyboardButton>();
+const clone = row.clone();
+
+row !== clone; // true;
+```
+
+Creates a copy of the row and clones all its children / buttons.
+
+---
+
 ### InlineKeyboard (extends `Array.prototype`)
 
 ```typescript
@@ -129,6 +150,21 @@ Use this method method to export the structure to be sent to `reply_markup`.
 **Arguments**:
 
 none.
+
+---
+
+#### `.clone`
+
+```typescript
+InlineKeyboard.prototype.clone(): InlineKeyboard;
+
+const keyboard = new InlineKeyboard();
+const clone = row.clone();
+
+keyboard !== clone; // true;
+```
+
+Creates a copy of the keyboard, a copy of all of its row and a clone of all of their children / buttons.
 
 ---
 
@@ -165,6 +201,21 @@ row.push(
 	)
 );
 ```
+
+---
+
+#### `.clone`
+
+```typescript
+InlineKeyboardButton.prototype.clone(): InlineKeyboardButton;
+
+const button = new InlineKeyboardButton();
+const clone = button.clone();
+
+button !== clone; // true;
+```
+
+Creates a copy of the button and objects inside it.
 
 ---
 
@@ -227,8 +278,6 @@ keyboard.remove();
 
 Use this method method to export the structure to be sent to `reply_markup` for closing definitely the keyboard.
 
-**Throws if no rows got pushed in the object**.
-
 **Arguments**:
 
 | Argument  |  Type   | Required | Default Value |
@@ -236,6 +285,77 @@ Use this method method to export the structure to be sent to `reply_markup` for 
 | selective | boolean |  false   |    `false`    |
 
 <br />
+
+---
+
+#### `.clone`
+
+```typescript
+ReplyKeyboard.prototype.clone(): ReplyKeyboard;
+
+const keyboard = new ReplyKeyboard();
+const clone = keyboard.clone();
+
+keyboard !== clone; // true;
+```
+
+Creates a copy of the keyboard, a copy of all of its row and a clone of all of their children / buttons.
+
+---
+
+### KeyboardButton
+
+```typescript
+new KeyboardButton<S extends string>(text: string, options: Options): KeyboardButton;
+```
+
+Use this method to create a button to be pushed in a Row.
+
+    request_contact?: boolean;
+    request_location?: boolean;
+    request_poll?: KeyboardButtonPollType;
+
+**Arguments**:
+
+| Argument                  |        Type         | Required | Default Value | Description                                  |
+| ------------------------- | :-----------------: | :------: | :-----------: | -------------------------------------------- |
+| text                      |       string        |   true   |       -       | The visual string to be shown on the button. |
+| options                   |       Object        |  false   |     `{}`      | The options for this button.                 |
+| options.request_contact   |       boolean       |  false   |  `undefined`  | -                                            |
+| options.request_location  |       boolean       |  false   |  `undefined`  | -                                            |
+| options.request_poll      |       Object        |  false   |  `undefined`  | -                                            |
+| options.request_poll.type | "quiz" \| "regular" |   true   |  `undefined`  | -                                            |
+
+<br />
+<br />
+
+**Example**:
+
+```typescript
+const row = new Row<KeyboardButton>();
+
+row.push(
+	new KeyboardButton("My text 1", {
+		request_location: true,
+		request_contact: false,
+	})
+);
+```
+
+---
+
+#### `.clone`
+
+```typescript
+InlineKeyboardButton.prototype.clone(): InlineKeyboardButton;
+
+const button = new InlineKeyboardButton();
+const clone = button.clone();
+
+button !== clone; // true;
+```
+
+Creates a copy of the button and objects inside it.
 
 ---
 

@@ -16,4 +16,15 @@ export default class InlineKeyboard extends Array<Row<InlineKeyboardButton>> {
 			inline_keyboard: this.map((row) => row.getJSON())
 		};
 	}
+
+	/**
+	 * Clones recursively the whole keyboard and returns
+	 * a new image of the keyboard.
+	 */
+
+	clone() {
+		return new InlineKeyboard(
+			...this.map(row => row.clone())
+		);
+	}
 }
