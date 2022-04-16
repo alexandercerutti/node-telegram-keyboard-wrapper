@@ -28,12 +28,12 @@
 	},
 	"homepage": "https://github.com/alexandercerutti/node-telegram-keyboard-wrapper#readme",
 	"devDependencies": {
-		"@types/jasmine": "^3.6.5",
-		"@types/node-telegram-bot-api": "^0.51.1",
-		"jasmine": "^3.6.4",
-		"node-telegram-bot-api": "^0.51.0",
+		"@types/jasmine": "^4.0.3",
+		"@types/node-telegram-bot-api": "^0.56.2",
+		"jasmine": "^4.1.0",
+		"node-telegram-bot-api": "^0.56.0",
 		"rimraf": "^3.0.2",
-		"typescript": "^4.2.3"
+		"typescript": "^4.6.3"
 	},
 	"files": [
 		"lib/**/*.+(js|d.ts)!(*.map)"
