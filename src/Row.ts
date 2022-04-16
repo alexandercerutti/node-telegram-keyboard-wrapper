@@ -4,12 +4,12 @@ import KeyboardButton from "./KeyboardButton";
 type RowTypes = InlineKeyboardButton | KeyboardButton;
 
 export default class Row<R extends RowTypes> extends Array<R> {
-	clone() {
+	public clone() {
 		const mappedButtons = this.map((element: R) => element.clone()) as R[];
 		return new Row(...mappedButtons);
 	}
 
-	getJSON() {
+	public getJSON() {
 		return this.map((element: RowTypes) => element.getJSON());
 	}
 }

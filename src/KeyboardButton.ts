@@ -23,11 +23,11 @@ export default class KeyboardButton {
 		Object.freeze(this);
 	}
 
-	clone() {
+	public clone() {
 		return new KeyboardButton(this.text, Object.assign({}, this.options));
 	}
 
-	getJSON() {
+	public getJSON() {
 		return {
 			text: this.text,
 			...this.options,

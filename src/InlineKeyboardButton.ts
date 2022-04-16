@@ -34,7 +34,7 @@ export default class InlineKeyboardButton<
 		Object.freeze(this);
 	}
 
-	clone() {
+	public clone() {
 		const exclusiveValue =
 			typeof this.exclusiveValue === "object"
 				? Object.assign({}, this.exclusiveValue)
@@ -42,7 +42,7 @@ export default class InlineKeyboardButton<
 		return new InlineKeyboardButton(this.text, this.exclusiveKey, exclusiveValue);
 	}
 
-	getJSON() {
+	public getJSON() {
 		return {
 			text: this.text,
 			[this.exclusiveKey]: this.exclusiveValue,

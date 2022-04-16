@@ -16,7 +16,7 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 	 * @param options
 	 */
 
-	getMarkup(
+	public getMarkup(
 		options: Omit<ReplyKeyboardMarkupOptions, "keyboard"> = {},
 	): ReplyKeyboardMarkupOptions {
 		if (!this.length) {
@@ -38,7 +38,7 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 	 * @param selective
 	 */
 
-	remove(selective: boolean = false) {
+	public remove(selective: boolean = false) {
 		return {
 			remove_keyboard: true,
 			selective,
@@ -50,7 +50,7 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 	 * a new image of the keyboard.
 	 */
 
-	clone() {
+	public clone() {
 		return new ReplyKeyboard(...this.map((row) => row.clone()));
 	}
 }
