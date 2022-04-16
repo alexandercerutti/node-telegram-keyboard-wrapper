@@ -16,7 +16,9 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 	 * @param options
 	 */
 
-	getMarkup(options: Omit<ReplyKeyboardMarkupOptions, "keyboard"> = {}): ReplyKeyboardMarkupOptions {
+	getMarkup(
+		options: Omit<ReplyKeyboardMarkupOptions, "keyboard"> = {},
+	): ReplyKeyboardMarkupOptions {
 		if (!this.length) {
 			throw new Error("No rows added to keyboard.");
 		}
@@ -49,8 +51,6 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 	 */
 
 	clone() {
-		return new ReplyKeyboard(
-			...this.map((row) => row.clone())
-		);
+		return new ReplyKeyboard(...this.map((row) => row.clone()));
 	}
 }

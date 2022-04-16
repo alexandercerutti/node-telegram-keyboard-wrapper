@@ -30,7 +30,7 @@ export default class KeyboardButton {
 	getJSON() {
 		return {
 			text: this.text,
-			...this.options
+			...this.options,
 		};
 	}
 }

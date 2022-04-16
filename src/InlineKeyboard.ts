@@ -13,7 +13,7 @@ export default class InlineKeyboard extends Array<Row<InlineKeyboardButton>> {
 		}
 
 		return {
-			inline_keyboard: this.map((row) => row.getJSON())
+			inline_keyboard: this.map((row) => row.getJSON()),
 		};
 	}
 
@@ -23,8 +23,6 @@ export default class InlineKeyboard extends Array<Row<InlineKeyboardButton>> {
 	 */
 
 	clone() {
-		return new InlineKeyboard(
-			...this.map(row => row.clone())
-		);
+		return new InlineKeyboard(...this.map((row) => row.clone()));
 	}
 }
