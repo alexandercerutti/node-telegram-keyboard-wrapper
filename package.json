@@ -4,7 +4,7 @@
 	"description": "A support to create keyboards in Telegram via bots",
 	"main": "lib/index.js",
 	"scripts": {
-		"build": "npm run build:src",
+		"build": "rm -rf lib && npm run build:src",
 		"test": "npm run build:spec && npx jasmine",
 		"example": "cd examples && npm run example",
 		"build:example": "cd examples && npm run build:full",
