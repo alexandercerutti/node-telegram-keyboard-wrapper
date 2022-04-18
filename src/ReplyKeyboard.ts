@@ -2,7 +2,7 @@ import KeyboardButton from "./KeyboardButton";
 import Row from "./Row";
 
 interface ReplyKeyboardMarkupOptions {
-	keyboard: Array<Array<any>>; // @TODO improve type
+	keyboard: Array<Array<KeyboardButton>>;
 	resize_keyboard?: boolean;
 	one_time_keyboard?: boolean;
 	selective?: boolean;
@@ -23,7 +23,7 @@ export default class ReplyKeyboard extends Array<Row<KeyboardButton>> {
 			throw new Error("No rows added to keyboard.");
 		}
 
-		const keyboard = this.map((row) => row.getJSON());
+		const keyboard = this.map((row) => row.getJSON() as KeyboardButton[]);
 
 		return {
 			...options,
