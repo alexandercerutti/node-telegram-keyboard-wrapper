@@ -43,8 +43,9 @@ inlineKeyboard.push(
 	 */
 
 	new Row<InlineKeyboardButton>(
-		new InlineKeyboardButton("1:1 Button", "pay", true),
 		new InlineKeyboardButton("1:2 Button", "url", "https://www.google.com"),
+		new InlineKeyboardButton("1:1 Button", "callback_data", "Works 1!"),
+		new InlineKeyboardButton("1:2 Button", "callback_data", "Works 2!"),
 	),
 	new Row<InlineKeyboardButton>(
 		new InlineKeyboardButton("2:1 Button", "callback_data", "Works 3!"),
