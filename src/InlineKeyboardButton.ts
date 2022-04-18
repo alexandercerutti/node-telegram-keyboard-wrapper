@@ -11,6 +11,9 @@ interface InlineKeyboardSupportedProperties {
 	switch_inline_query_current_chat: string;
 	callback_game: {};
 	pay: boolean;
+	web_app: {
+		url: string;
+	};
 }
 
 export default class InlineKeyboardButton<P extends keyof InlineKeyboardSupportedProperties = any> {

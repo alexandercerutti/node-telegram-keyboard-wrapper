@@ -4,6 +4,9 @@ interface KeyboardButtonOptions {
 	request_poll?: {
 		type: "quiz" | "regular";
 	};
+	web_app?: {
+		url: string;
+	};
 }
 
 export default class KeyboardButton {
