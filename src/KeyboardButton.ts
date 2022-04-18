@@ -1,11 +1,9 @@
-interface KeyboardButtonPollType {
-	type: "quiz" | "regular";
-}
-
 interface KeyboardButtonOptions {
 	request_contact?: boolean;
 	request_location?: boolean;
-	request_poll?: KeyboardButtonPollType;
+	request_poll?: {
+		type: "quiz" | "regular";
+	};
 }
 
 export default class KeyboardButton {
