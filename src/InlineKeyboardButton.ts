@@ -13,18 +13,12 @@ interface InlineKeyboardSupportedProperties {
 	pay: boolean;
 }
 
-export default class InlineKeyboardButton<
-	P extends keyof InlineKeyboardSupportedProperties = keyof InlineKeyboardSupportedProperties,
-> {
-	public readonly text: string;
-	public readonly exclusiveKey: keyof InlineKeyboardSupportedProperties;
-	public readonly exclusiveValue: InlineKeyboardSupportedProperties[P];
-
-	constructor(text: string, exclusiveKey: P, exclusiveValue: InlineKeyboardSupportedProperties[P]) {
-		this.text = text;
-		this.exclusiveKey = exclusiveKey;
-		this.exclusiveValue = exclusiveValue;
-
+export default class InlineKeyboardButton<P extends keyof InlineKeyboardSupportedProperties = any> {
+	constructor(
+		public readonly text: string,
+		public readonly exclusiveKey: P,
+		public readonly exclusiveValue: InlineKeyboardSupportedProperties[P],
+	) {
 		if (!exclusiveKey || !exclusiveValue) {
 			throw new Error(
 				"Missing exclusiveKey or exclusiveValue. Creating an InlineKeyboardButton requires one of the mandatory values among optional values. For more refer to: https://core.telegram.org/bots/api#inlinekeyboardbutton",
@@ -39,6 +33,7 @@ export default class InlineKeyboardButton<
 			typeof this.exclusiveValue === "object"
 				? Object.assign({}, this.exclusiveValue)
 				: this.exclusiveValue;
+
 		return new InlineKeyboardButton(this.text, this.exclusiveKey, exclusiveValue);
 	}
 
