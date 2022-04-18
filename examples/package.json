@@ -10,6 +10,7 @@
 		"build": "npx tsc",
 		"build:full": "npm run clear:deps && npm install && npm run build",
 		"clear:deps": "rm -rf node_modules",
+		"preexample": "npm install",
 		"example": "npx ts-node botExample.ts",
 		"example:debug": "node -r ts-node/register --inspect-brk src/index.ts"
 	},
